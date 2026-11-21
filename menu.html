@@ -175,7 +175,9 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   const params = new URLSearchParams(location.search);
   let dishes = [];
   try { dishes = await ES.q(ES.sb.from('dishes').select('*').eq('kitchen_id', c.kitchen.id).eq('active', true).order('price')); } catch (e) { ES.fail(e); }
-  let editNo = null;
+  let editNo = null, orig = {}, rem = {};
+  try { rem = Object.fromEntries((await ES.q(ES.sb.rpc('dish_remaining', { p_kitchen: c.kitchen.id, p_date: ES.tomorrowISO() }))).map((x) => [x.dish_id, x])); } catch (e) { /* kota bilgisi alınamazsa sunucu yine kontrol eder */ }
+  const avail = (d) => { const r = rem[d.id]; return (!r || r.remaining == null) ? Infinity : r.remaining + (orig[d.id] || 0); };
 
   // düzenleme / tekrar sipariş: sepeti siparişten doldur
   const loadId = params.get('edit') || params.get('reorder');
@@ -183,7 +185,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     try {
       const o = await ES.q(ES.sb.from('orders').select('*, order_items(*)').eq('id', Number(loadId)).single());
       const ct = { meal: o.meal, items: {}, editing: params.get('edit') && ES.canEdit(o) ? o.id : null };
-      o.order_items.forEach((i) => { const d = dishes.find((x) => x.id === i.dish_id); if (d) ct.items[d.id] = { q: i.qty, p: Number(d.price), n: d.name }; });
+      o.order_items.forEach((i) => { const d = dishes.find((x) => x.id === i.dish_id); if (d) { ct.items[d.id] = { q: i.qty, p: Number(d.price), n: d.name }; if (params.get('edit')) orig[d.id] = i.qty; } });
       if (params.get('edit') && !ES.canEdit(o)) ES.toast('Bu sipariş artık düzenlenemez (00:00 kapanışı geçti)', 'error');
       ES.Cart.set(ct); editNo = ct.editing ? o.order_no : null;
       history.replaceState(null, '', 'menu.html');
@@ -197,10 +199,10 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     '<main class="flex-1 px-page-margin py-gutter-lg flex flex-col gap-gutter-xl">' +
     (ct.editing ? '<div class="p-gutter-md rounded-lg bg-info-container text-on-info-container font-body text-body-sm">Mevcut siparişini düzenliyorsun' + (editNo && editNo !== '(düzenleme)' ? ' (' + ES.esc(editNo) + ')' : '') + '. Onayladığında eski sipariş iptal edilip yenisi oluşur. <button id="cancel-edit" class="underline">Vazgeç</button></div>' : '') +
     '<div role="tablist" class="grid grid-cols-2 p-1 rounded-full bg-light-surface-container border border-light-outline-variant">' + ['ogle', 'aksam'].map((m) => '<button data-meal="' + m + '" class="min-h-[44px] px-4 py-2 rounded-full font-body text-label-lg ' + (m === meal ? 'bg-light-primary text-light-on-primary shadow-sm' : 'text-light-on-surface-variant') + '">' + ES.MEAL[m] + ' Öğünü</button>').join('') + '</div>' +
-    ES.CAT_ORDER.map((cat) => { const items = list.filter((d) => d.category === cat); if (!items.length) return ''; return '<section class="flex flex-col gap-gutter-md"><h2 class="font-headline text-headline-sm">' + ES.CAT[cat] + '</h2>' + items.map((d) => { const q = (ct.items[d.id] || {}).q || 0;
+    ES.CAT_ORDER.map((cat) => { const items = list.filter((d) => d.category === cat); if (!items.length) return ''; return '<section class="flex flex-col gap-gutter-md"><h2 class="font-headline text-headline-sm">' + ES.CAT[cat] + '</h2>' + items.map((d) => { const q = (ct.items[d.id] || {}).q || 0; const av = avail(d), out = av <= 0, full = q >= av;
       return '<article class="bg-light-surface-container-lowest rounded-lg p-gutter-md border border-light-outline-variant shadow-sm flex items-center gap-gutter-md">' + ES.dishImg(d, 'w-20 h-20 rounded-md object-cover shrink-0') +
       '<div class="flex-1 min-w-0 flex flex-col gap-1.5"><h3 class="font-body text-title-md">' + ES.esc(d.name) + (d.region_tag ? ' <span class="px-2 py-0.5 rounded-full bg-light-secondary-container text-light-on-secondary-container font-body text-label-sm align-middle">' + ES.esc(d.region_tag) + '</span>' : '') + '</h3>' +
-      '<div class="flex items-center justify-between gap-2"><span class="font-body text-title-md text-light-primary tabular-nums">' + ES.money(d.price) + '</span><div class="flex items-center gap-2"><button data-minus="' + d.id + '" class="w-10 h-10 rounded-full border border-light-outline-variant bg-light-surface-container-low flex items-center justify-center" aria-label="Azalt"><span class="material-symbols-outlined text-[18px]">remove</span></button><span class="w-6 text-center font-body text-title-md tabular-nums">' + q + '</span><button data-plus="' + d.id + '" class="w-10 h-10 rounded-full bg-light-primary text-light-on-primary flex items-center justify-center" aria-label="Artır"><span class="material-symbols-outlined text-[18px]">add</span></button></div></div></div></article>'; }).join('') + '</section>'; }).join('') +
+      '<div class="flex items-center justify-between gap-2"><span class="font-body text-title-md text-light-primary tabular-nums">' + ES.money(d.price) + '</span>' + (out ? '<span class="px-2 py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant font-body text-label-sm">Tükendi · kotamız bitti</span>' : (av <= 5 ? '<span class="px-2 py-0.5 rounded-full bg-light-secondary-container text-light-on-secondary-container font-body text-label-sm">Son ' + av + ' porsiyon</span>' : '')) + '<div class="flex items-center gap-2"><button data-minus="' + d.id + '" class="w-10 h-10 rounded-full border border-light-outline-variant bg-light-surface-container-low flex items-center justify-center" aria-label="Azalt"><span class="material-symbols-outlined text-[18px]">remove</span></button><span class="w-6 text-center font-body text-title-md tabular-nums">' + q + '</span><button data-plus="' + d.id + '"' + (full ? ' disabled style="opacity:.35"' : '') + ' class="w-10 h-10 rounded-full bg-light-primary text-light-on-primary flex items-center justify-center" aria-label="Artır"><span class="material-symbols-outlined text-[18px]">add</span></button></div></div></div></article>'; }).join('') + '</section>'; }).join('') +
     (list.length ? '' : '<p class="font-body text-body-md text-light-on-surface-variant">Bu öğün için menü henüz hazırlanmadı.</p>') +
     '</main>' + ES.tabbar('menu');
     const n = ES.Cart.count(ct), tot = ES.Cart.total(ct);
@@ -210,7 +212,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
       if (ES.Cart.count(cur) > 0 && !confirm('Öğün değişince sepetin temizlenecek. Devam edilsin mi?')) return;
       ES.Cart.set({ meal: b.dataset.meal, items: {}, editing: cur.editing }); render();
     }));
-    app.querySelectorAll('[data-plus]').forEach((b) => b.addEventListener('click', () => { const d = dishes.find((x) => x.id === Number(b.dataset.plus)); ES.Cart.setQty(d, (((ES.Cart.get().items[d.id]) || {}).q || 0) + 1); render(); }));
+    app.querySelectorAll('[data-plus]').forEach((b) => b.addEventListener('click', () => { const d = dishes.find((x) => x.id === Number(b.dataset.plus)); if ((((ES.Cart.get().items[d.id]) || {}).q || 0) + 1 > avail(d)) return ES.toast('Üzgünüz, ' + d.name + ' için kotamız doldu', 'error'); ES.Cart.setQty(d, (((ES.Cart.get().items[d.id]) || {}).q || 0) + 1); render(); }));
     app.querySelectorAll('[data-minus]').forEach((b) => b.addEventListener('click', () => { const d = dishes.find((x) => x.id === Number(b.dataset.minus)); ES.Cart.setQty(d, (((ES.Cart.get().items[d.id]) || {}).q || 0) - 1); render(); }));
     const ce = document.getElementById('cancel-edit'); if (ce) ce.addEventListener('click', () => { ES.Cart.clear(); render(); });
   }
