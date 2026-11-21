@@ -236,3 +236,6 @@ window.ES = (function () {
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
 })();
+
+/* ---------- dil seçimi (TR / EN / DE / AR / RU) ---------- */
+(function () { var s = document.createElement('script'); s.src = 'assets/i18n.js'; document.head.appendChild(s); })();
