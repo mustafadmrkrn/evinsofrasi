@@ -171,7 +171,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   if (!c) return;
   const k = c.kitchen;
   const root = ES.mountKitchen('menu', 'Menü Yönetimi', 'Yemekleri aç/kapat, fiyat ve öğün ayarla, saat kontenjanlarını belirle');
-  let dishes = [], slots = [];
+  let dishes = [], slots = [], msets = [];
   let targets = [];
   try {
     const ks = await ES.q(ES.sb.from('kitchens').select('id,name,districts(cities(name))').order('id'));
@@ -180,6 +180,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   if (c.profile.role !== 'admin') targets = targets.filter((t) => t.id === k.id);
   async function load() {
     dishes = await ES.q(ES.sb.from('dishes').select('*').eq('kitchen_id', k.id).order('category').order('name'));
+    msets = await ES.q(ES.sb.from('menu_sets').select('*').eq('kitchen_id', k.id).order('diet').order('code'));
     slots = await ES.q(ES.sb.from('slots').select('*').eq('kitchen_id', k.id).order('meal').order('start_time'));
     render();
   }
@@ -195,6 +196,11 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
       '<button id="n-add" class="min-h-[40px] px-5 rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Ekle</button>' +
       '<div class="flex flex-col gap-1 col-span-5"><label class="font-body text-label-sm">Hangi şehir / mutfaklara eklensin?</label><div class="flex flex-wrap gap-2">' + targets.map((t) => '<label class="flex items-center gap-2 px-3 py-2 rounded-full border border-light-outline-variant bg-light-surface-container-low font-body text-body-md"><input type="checkbox" data-target="' + t.id + '"' + (t.id === k.id ? ' checked' : '') + '>' + ES.esc(t.city) + ' · ' + ES.esc(t.name) + '</label>').join('') + '</div></div>' +
       '<div class="flex flex-col gap-1 col-span-5"><label class="font-body text-label-sm">Açıklama</label><input id="n-desc" class="' + inp + ' w-full"></div></div></section>' +
+    '<section class="bg-light-surface-container-lowest rounded-lg p-gutter-xl border border-light-outline-variant shadow-sm flex flex-col gap-gutter-md"><h2 class="font-headline text-headline-sm">Menü Setleri (Abonelik Menüleri)</h2><p class="font-body text-body-sm text-light-on-surface-variant">Müşteri paket alırken menü tipini seçer: vegan, protein, sporcu vb.</p>' +
+      msets.map((m) => '<div class="flex items-start justify-between gap-gutter-md p-gutter-md rounded-md border border-light-outline-variant"><div><div class="flex items-center gap-2 flex-wrap"><span class="px-2.5 py-0.5 rounded-full bg-light-secondary-container text-light-on-secondary-container font-body text-label-sm">' + ES.esc(ES.DIET[m.diet] || m.diet) + '</span><span class="font-body text-title-md">' + ES.esc(m.title) + '</span>' + (m.recommended ? '<span class="px-2 py-0.5 rounded-full bg-light-primary-container text-light-on-primary-container font-body text-label-sm">Önerilen</span>' : '') + '</div><p class="font-body text-body-sm text-light-on-surface-variant mt-1">' + m.items.map(ES.esc).join(' · ') + '</p></div><button data-delset="' + m.id + '" class="font-body text-label-md text-light-on-surface-variant underline shrink-0">Sil</button></div>').join('') +
+      '<div class="grid grid-cols-3 gap-gutter-md items-end pt-2 border-t border-light-outline-variant"><div class="flex flex-col gap-1"><label class="font-body text-label-sm">Menü tipi</label><select id="s-diet" class="' + inp + '">' + Object.keys(ES.DIET).map((d) => '<option value="' + d + '">' + ES.DIET[d] + '</option>').join('') + '</select></div><div class="flex flex-col gap-1 col-span-2"><label class="font-body text-label-sm">Menü adı</label><input id="s-title" placeholder="Örn. Protein Menü · Izgara Tavuk" class="' + inp + '"></div>' +
+      '<div class="col-span-3 flex flex-col gap-1"><label class="font-body text-label-sm">Menüdeki yemekler (aktif yemeklerinden seç)</label><div class="flex flex-wrap gap-2">' + dishes.filter((d) => d.active).map((d) => '<label class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-light-outline-variant bg-light-surface-container-low font-body text-body-sm"><input type="checkbox" data-sitem="' + ES.esc(d.name) + '">' + ES.esc(d.name) + '</label>').join('') + '</div></div>' +
+      '<label class="flex items-center gap-2 font-body text-body-md"><input id="s-rec" type="checkbox"> Bu tipte önerilen menü olsun</label><button id="s-add" class="min-h-[40px] px-5 rounded-full bg-light-primary text-light-on-primary font-body text-label-lg col-start-3">Menü Setini Ekle</button></div></section>' +
     '<section class="bg-light-surface-container-lowest rounded-lg p-gutter-xl border border-light-outline-variant shadow-sm flex flex-col gap-gutter-md"><h2 class="font-headline text-headline-sm">Saat Dilimi Kontenjanları</h2><p class="font-body text-body-sm text-light-on-surface-variant">Her dilimde bir günde alınacak en fazla sipariş sayısı.</p><div class="grid grid-cols-4 gap-gutter-md">' + slots.map((s) => '<div class="flex flex-col gap-1 p-gutter-md rounded-md border border-light-outline-variant"><span class="font-body text-label-md tabular-nums">' + ES.MEAL[s.meal] + ' ' + ES.hm(s.start_time) + '–' + ES.hm(s.end_time) + '</span><input data-cap="' + s.id + '" type="number" min="1" max="500" value="' + s.capacity + '" class="' + inp + ' tabular-nums"></div>').join('') + '</div></section>';
 
     const upd = (id, patch) => ES.q(ES.sb.from('dishes').update(patch).eq('id', id)).then(() => ES.toast('Kaydedildi', 'ok')).catch(ES.fail);
@@ -202,6 +208,17 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     root.querySelectorAll('[data-active]').forEach((i) => i.addEventListener('change', async () => { await upd(Number(i.dataset.active), { active: i.checked }); load(); }));
     root.querySelectorAll('[data-meal]').forEach((b) => b.addEventListener('click', async () => { const [id, m] = b.dataset.meal.split(':'); const d = dishes.find((x) => x.id === Number(id)); const meals = d.meals.includes(m) ? d.meals.filter((x) => x !== m) : [...d.meals, m]; if (!meals.length) return ES.toast('En az bir öğün seçili olmalı', 'error'); await upd(d.id, { meals }); load(); }));
     root.querySelectorAll('[data-cap]').forEach((i) => i.addEventListener('change', () => { const v = Number(i.value); if (!(v >= 1)) return ES.toast('Geçersiz kontenjan', 'error'); ES.q(ES.sb.from('slots').update({ capacity: v }).eq('id', Number(i.dataset.cap))).then(() => ES.toast('Kontenjan güncellendi', 'ok')).catch(ES.fail); }));
+    root.querySelectorAll('[data-delset]').forEach((b) => b.addEventListener('click', () => { if (!confirm('Bu menü seti silinsin mi?')) return; ES.q(ES.sb.from('menu_sets').delete().eq('id', Number(b.dataset.delset))).then(() => { ES.toast('Silindi', 'ok'); load(); }).catch(ES.fail); }));
+    document.getElementById('s-add').addEventListener('click', (e) => ES.busy(e.currentTarget, async () => {
+      const diet = document.getElementById('s-diet').value, title = document.getElementById('s-title').value.trim();
+      const items = [...root.querySelectorAll('[data-sitem]:checked')].map((x) => x.dataset.sitem);
+      if (title.length < 3) throw new Error('Menü adı gerekli');
+      if (items.length < 2) throw new Error('En az 2 yemek seç');
+      const rec = document.getElementById('s-rec').checked;
+      if (rec) await ES.q(ES.sb.from('menu_sets').update({ recommended: false }).eq('kitchen_id', k.id).eq('diet', diet));
+      await ES.q(ES.sb.from('menu_sets').insert({ kitchen_id: k.id, diet, title, items, recommended: rec, code: diet.slice(0, 3).toUpperCase() + '-' + Date.now().toString(36).slice(-4) }));
+      ES.toast('Menü seti eklendi', 'ok'); await load();
+    }));
     document.getElementById('n-add').addEventListener('click', (e) => ES.busy(e.currentTarget, async () => {
       const name = document.getElementById('n-name').value.trim(), price = Number(document.getElementById('n-price').value);
       if (name.length < 2 || !(price >= 0) || document.getElementById('n-price').value === '') throw new Error('Yemek adı ve fiyat gerekli');

@@ -172,5 +172,6 @@ window.ES = (function () {
     return document.getElementById('content');
   }
 
-  return { sb, ctx, init, signOut, q, toast, fail, busy, esc, money, hm, nowHM, trDate, todayISO, tomorrowISO, addDays, dowOf, DOW, MONTHS, MEAL, CAT, CAT_ORDER, Cart, dishImg, appHeader, cartPill, refreshCartPill, tabbar, noKitchenBanner, startCountdown, orderStages, canEdit, kitchenDate, mountKitchen, secondsToMidnight, hms };
+  const DIET = { standart: 'Standart', vegan: 'Vegan', vejetaryen: 'Vejetaryen', protein: 'Protein Ağırlıklı', sporcu: 'Sporcu', hafif: 'Hafif / Diyet', glutensiz: 'Glutensiz' };
+  return { DIET, sb, ctx, init, signOut, q, toast, fail, busy, esc, money, hm, nowHM, trDate, todayISO, tomorrowISO, addDays, dowOf, DOW, MONTHS, MEAL, CAT, CAT_ORDER, Cart, dishImg, appHeader, cartPill, refreshCartPill, tabbar, noKitchenBanner, startCountdown, orderStages, canEdit, kitchenDate, mountKitchen, secondsToMidnight, hms };
 })();
