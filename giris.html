@@ -172,7 +172,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   <main class="flex-1 px-page-margin py-gutter-xl flex flex-col gap-gutter-lg">
     <p class="font-body text-body-md text-light-on-surface-variant">Sistemimiz sadece üyelere açıktır. Mutfak personeli de aynı girişi kullanır.</p>
     <form id="f" class="bg-light-surface-container-lowest rounded-lg p-gutter-lg border border-light-outline-variant shadow-sm flex flex-col gap-gutter-md">
-      <div class="flex flex-col gap-1.5"><label for="email" class="font-body text-label-md">E-posta</label><input id="email" type="email" autocomplete="email" required class="w-full min-h-[48px] px-4 rounded-md bg-light-surface-container-low border border-light-outline-variant text-body-md"></div>
+      <div class="flex flex-col gap-1.5"><label for="email" class="font-body text-label-md">E-posta veya kullanıcı adı</label><input id="email" type="text" autocapitalize="none" autocomplete="username" required class="w-full min-h-[48px] px-4 rounded-md bg-light-surface-container-low border border-light-outline-variant text-body-md"></div>
       <div class="flex flex-col gap-1.5"><label for="pw" class="font-body text-label-md">Şifre</label><input id="pw" type="password" autocomplete="current-password" required class="w-full min-h-[48px] px-4 rounded-md bg-light-surface-container-low border border-light-outline-variant text-body-md"></div>
       <button id="go" type="submit" class="inline-flex items-center justify-center w-full min-h-[52px] px-6 py-3 rounded-full bg-light-primary text-light-on-primary shadow-sm font-body text-label-lg">Giriş Yap</button>
     </form>
@@ -193,7 +193,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   document.getElementById('f').addEventListener('submit', (e) => {
     e.preventDefault();
     ES.busy(document.getElementById('go'), async () => {
-      const { error } = await ES.sb.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('pw').value });
+      const { error } = await ES.sb.auth.signInWithPassword({ email: (function (v) { v = v.trim(); return v.includes('@') ? v : v.toLowerCase() + '@evinsofrasi.local'; })(document.getElementById('email').value), password: document.getElementById('pw').value });
       if (error) {
         if (/not confirmed/i.test(error.message)) throw new Error('E-posta onayı açık görünüyor. Supabase > Authentication > Providers > Email bölümünde "Confirm email" seçeneğini kapat.');
         throw new Error(/invalid/i.test(error.message) ? 'E-posta veya şifre hatalı' : error.message);

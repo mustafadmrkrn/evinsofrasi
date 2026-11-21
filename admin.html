@@ -164,45 +164,111 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
 <script src="assets/app.js"></script>
 </head>
 <body class="bg-light-surface text-light-on-surface font-body antialiased">
-<div class="max-w-[960px] mx-auto p-6">
-  <div class="flex items-center justify-between mb-6 gap-3 flex-wrap">
-    <div><h1 class="font-headline text-headline-md">Yönetici Paneli</h1><p class="text-body-md text-light-on-surface-variant">Kullanıcı yetkileri ve mutfak erişimi</p></div>
-    <div class="flex gap-3 items-center"><select id="kit" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"></select><button id="open" class="min-h-[44px] px-4 rounded-full bg-light-primary text-light-on-primary font-label-lg">Mutfak panelini aç</button><button id="out" class="underline text-light-on-surface-variant">Çıkış</button></div>
+<div class="max-w-[960px] mx-auto p-6 flex flex-col gap-6">
+  <div class="flex items-center justify-between gap-3 flex-wrap">
+    <div><h1 class="font-headline text-headline-md">Yönetici Paneli</h1><p class="text-body-md text-light-on-surface-variant">Mutfak aç, personel ve yönetici ekle</p></div>
+    <div class="flex gap-3 items-center flex-wrap"><select id="kit" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"></select><button id="open" class="min-h-[44px] px-4 rounded-full bg-light-primary text-light-on-primary font-label-lg">Mutfak panelini aç</button><button id="out" class="underline text-light-on-surface-variant">Çıkış</button></div>
   </div>
-  <input id="s" placeholder="E-posta veya isim ara" class="w-full min-h-[44px] px-3 mb-4 rounded-md border border-light-outline-variant bg-white">
-  <div id="list" class="flex flex-col gap-3"></div>
+
+  <section class="p-5 rounded-lg bg-white border border-light-outline-variant flex flex-col gap-3">
+    <h2 class="font-headline text-headline-sm">Yeni Mutfak Aç (il / ilçe)</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <select id="m-il" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"></select>
+      <select id="m-ilce" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"></select>
+      <div class="flex gap-2"><input id="m-newilce" placeholder="Listede yoksa ilçe yaz" class="flex-1 min-w-0 min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"><button id="m-addilce" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant">Ekle</button></div>
+      <input id="m-name" placeholder="Mutfak adı (örn. Mersin Merkez Mutfağı)" class="md:col-span-2 min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+      <input id="m-chef" placeholder="Şef adı (isteğe bağlı)" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+      <input id="m-fee" type="number" min="0" value="25" placeholder="Teslimat ücreti ₺" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+      <button id="m-go" class="md:col-span-2 min-h-[44px] px-4 rounded-full bg-light-primary text-light-on-primary font-label-lg">Mutfağı Aç</button>
+    </div>
+    <p class="text-body-sm text-light-on-surface-variant">Mutfak açılınca seçili ilçe müşteriler için "Aktif" olur, öğle ve akşam saat dilimleri otomatik oluşur. Sonra aşağıdan bu mutfağa personel ekle.</p>
+  </section>
+
+  <section class="p-5 rounded-lg bg-white border border-light-outline-variant flex flex-col gap-3">
+    <h2 class="font-headline text-headline-sm">Yeni Personel / Yönetici Ekle</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <input id="u-name" placeholder="Ad soyad" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+      <input id="u-user" placeholder="Kullanıcı adı (örn. mehmet.usta)" autocapitalize="none" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+      <input id="u-pw" type="text" placeholder="Şifre (en az 8 karakter)" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+      <select id="u-role" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"><option value="kitchen">Mutfak personeli</option><option value="admin">Yönetici</option></select>
+      <select id="u-kit" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white"></select>
+      <button id="u-go" class="min-h-[44px] px-4 rounded-full bg-light-primary text-light-on-primary font-label-lg">Kullanıcıyı Oluştur</button>
+    </div>
+    <p class="text-body-sm text-light-on-surface-variant">Müşteriler kendileri kayıt olur. Personel ve yöneticileri sadece sen oluşturursun; kullanıcı adı ile giriş yapılır.</p>
+  </section>
+
+  <section class="flex flex-col gap-3">
+    <div class="flex items-center justify-between gap-3 flex-wrap"><h2 class="font-headline text-headline-sm">Personel ve Yöneticiler</h2><label class="flex items-center gap-2 text-body-sm"><input id="showc" type="checkbox"> Müşterileri de göster</label></div>
+    <input id="s" placeholder="Kullanıcı ara" class="w-full min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white">
+    <div id="list" class="flex flex-col gap-3"></div>
+  </section>
 </div>
 <script>
 (async () => {
   const c = await ES.init({ role: 'customer' });
   if (!c) return;
   if (c.profile.role !== 'admin') { document.body.innerHTML = '<div class="p-8 text-center"><h1 class="font-headline text-headline-sm mb-2">Bu sayfa yöneticiye özeldir</h1><a class="underline text-light-primary" href="anasayfa.html">Uygulamaya dön</a></div>'; return; }
-  const kitchens = await ES.q(ES.sb.from('kitchens').select('id,name').order('id'));
+  const $ = (id) => document.getElementById(id);
+  let kitchens = [], cities = [], districts = [], users = [];
   const kopt = (sel) => kitchens.map(k => '<option value="' + k.id + '"' + (k.id === sel ? ' selected' : '') + '>' + ES.esc(k.name) + '</option>').join('');
-  const kit = document.getElementById('kit'); kit.innerHTML = kopt(Number(localStorage.getItem('es_kitchen')) || kitchens[0].id);
-  document.getElementById('open').onclick = () => { localStorage.setItem('es_kitchen', kit.value); location.href = 'mutfak-sabah.html'; };
-  document.getElementById('out').onclick = ES.signOut;
-  let users = [];
+  async function loadGeo() {
+    kitchens = await ES.q(ES.sb.from('kitchens').select('id,name').order('id'));
+    cities = await ES.q(ES.sb.from('cities').select('id,name').order('name'));
+    districts = await ES.q(ES.sb.from('districts').select('id,city_id,name,status').order('name'));
+    $('kit').innerHTML = kopt(Number(localStorage.getItem('es_kitchen')) || (kitchens[0] && kitchens[0].id));
+    $('u-kit').innerHTML = kopt();
+    const cur = $('m-il').value;
+    $('m-il').innerHTML = cities.map(x => '<option value="' + x.id + '">' + ES.esc(x.name) + '</option>').join('');
+    if (cur) $('m-il').value = cur;
+    drawIlce();
+  }
+  function drawIlce(sel) {
+    const cid = Number($('m-il').value);
+    const list = districts.filter(d => d.city_id === cid);
+    $('m-ilce').innerHTML = list.length ? list.map(d => '<option value="' + d.id + '">' + ES.esc(d.name) + (d.status === 'active' ? ' (Aktif)' : '') + '</option>').join('') : '<option value="">İlçe yok, yan taraftan ekle</option>';
+    if (sel) $('m-ilce').value = sel;
+  }
+  $('m-il').onchange = () => drawIlce();
+  $('m-addilce').onclick = (e) => ES.busy(e.currentTarget, async () => {
+    const id = await ES.q(ES.sb.rpc('admin_add_district', { p_city: Number($('m-il').value), p_name: $('m-newilce').value }));
+    $('m-newilce').value = ''; await loadGeo(); drawIlce(id); ES.toast('İlçe eklendi', 'ok');
+  });
+  $('m-go').onclick = (e) => ES.busy(e.currentTarget, async () => {
+    if (!$('m-ilce').value) throw new Error('İlçe seç');
+    await ES.q(ES.sb.rpc('admin_open_kitchen', { p_district: Number($('m-ilce').value), p_name: $('m-name').value, p_chef: $('m-chef').value, p_fee: Number($('m-fee').value || 25) }));
+    $('m-name').value = ''; $('m-chef').value = '';
+    await loadGeo(); ES.toast('Mutfak açıldı', 'ok');
+  });
+  $('open').onclick = () => { localStorage.setItem('es_kitchen', $('kit').value); location.href = 'mutfak-sabah.html'; };
+  $('out').onclick = ES.signOut;
+  $('u-role').onchange = () => { $('u-kit').style.display = $('u-role').value === 'kitchen' ? '' : 'none'; };
+  $('u-go').onclick = (e) => ES.busy(e.currentTarget, async () => {
+    const { data, error } = await ES.sb.functions.invoke('admin-users', { body: { username: $('u-user').value, password: $('u-pw').value, full_name: $('u-name').value, role: $('u-role').value, kitchen_id: Number($('u-kit').value) || null } });
+    if (error) { let m = error.message; try { m = (await error.context.json()).error || m; } catch (_) {} throw new Error(m); }
+    if (data && data.error) throw new Error(data.error);
+    ES.toast('Oluşturuldu: ' + $('u-user').value, 'ok');
+    $('u-user').value = ''; $('u-pw').value = ''; $('u-name').value = ''; await loadUsers();
+  });
   const RL = { customer: 'Müşteri', kitchen: 'Mutfak', admin: 'Yönetici' };
   function draw() {
-    const t = document.getElementById('s').value.toLowerCase();
-    document.getElementById('list').innerHTML = users.filter(u => (u.email + ' ' + (u.full_name || '')).toLowerCase().includes(t)).map(u =>
+    const t = $('s').value.toLowerCase(), showc = $('showc').checked;
+    $('list').innerHTML = users.filter(u => (showc || u.role !== 'customer') && (u.email + ' ' + (u.full_name || '')).toLowerCase().includes(t)).map(u =>
       '<div class="p-4 rounded-lg bg-white border border-light-outline-variant flex flex-wrap items-center gap-3 justify-between" data-id="' + u.id + '">' +
-      '<div class="min-w-0"><div class="font-title-md truncate">' + ES.esc(u.full_name || '-') + '</div><div class="text-body-sm text-light-on-surface-variant truncate">' + ES.esc(u.email) + ' · ' + ES.esc(u.phone || '') + '</div></div>' +
+      '<div class="min-w-0"><div class="font-title-md truncate">' + ES.esc(u.full_name || '-') + '</div><div class="text-body-sm text-light-on-surface-variant truncate">' + ES.esc((u.email || '').replace('@evinsofrasi.local', '')) + (u.phone ? ' · ' + ES.esc(u.phone) : '') + '</div></div>' +
       '<div class="flex gap-2 items-center"><select class="r min-h-[40px] px-2 rounded-md border border-light-outline-variant">' + Object.keys(RL).map(r => '<option value="' + r + '"' + (u.role === r ? ' selected' : '') + '>' + RL[r] + '</option>').join('') + '</select>' +
       '<select class="k min-h-[40px] px-2 rounded-md border border-light-outline-variant">' + kopt(u.kitchen_id) + '</select>' +
-      '<button class="sv min-h-[40px] px-4 rounded-full bg-light-primary text-light-on-primary">Kaydet</button></div></div>').join('') || '<p class="text-light-on-surface-variant">Kullanıcı yok.</p>';
+      '<button class="sv min-h-[40px] px-4 rounded-full bg-light-primary text-light-on-primary">Kaydet</button></div></div>').join('') || '<p class="text-light-on-surface-variant">Kayıt yok.</p>';
     document.querySelectorAll('.sv').forEach(b => b.onclick = () => {
       const row = b.closest('[data-id]');
       ES.busy(b, async () => {
         await ES.q(ES.sb.rpc('admin_set_role', { p_user: row.dataset.id, p_role: row.querySelector('.r').value, p_kitchen: Number(row.querySelector('.k').value) }));
-        ES.toast('Kaydedildi'); await load();
+        ES.toast('Kaydedildi', 'ok'); await loadUsers();
       });
     });
   }
-  async function load() { users = await ES.q(ES.sb.rpc('admin_list_users')); draw(); }
-  document.getElementById('s').oninput = draw;
-  await load();
+  async function loadUsers() { users = await ES.q(ES.sb.rpc('admin_list_users')); draw(); }
+  $('s').oninput = draw; $('showc').onchange = draw;
+  await loadGeo(); await loadUsers();
 })();
 </script>
 </body>

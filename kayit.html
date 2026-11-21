@@ -273,6 +273,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     S.cities = await ES.q(ES.sb.from('cities').select('*').order('name'));
     S.districts = await ES.q(ES.sb.from('districts').select('*').order('name'));
   } catch (e) { ES.fail(e); }
+  S.cities = S.cities.filter((x) => S.districts.some((d) => d.city_id === x.id));
   $('il').innerHTML = S.cities.map((x) => '<option value="' + x.id + '">' + ES.esc(x.name) + '</option>').join('');
   function fillDistricts() {
     const cid = Number($('il').value);

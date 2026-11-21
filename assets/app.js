@@ -175,3 +175,21 @@ window.ES = (function () {
   const DIET = { standart: 'Standart', vegan: 'Vegan', vejetaryen: 'Vejetaryen', protein: 'Protein Ağırlıklı', sporcu: 'Sporcu', hafif: 'Hafif / Diyet', glutensiz: 'Glutensiz' };
   return { DIET, sb, ctx, init, signOut, q, toast, fail, busy, esc, money, hm, nowHM, trDate, todayISO, tomorrowISO, addDays, dowOf, DOW, MONTHS, MEAL, CAT, CAT_ORDER, Cart, dishImg, appHeader, cartPill, refreshCartPill, tabbar, noKitchenBanner, startCountdown, orderStages, canEdit, kitchenDate, mountKitchen, secondsToMidnight, hms };
 })();
+
+/* ---------- tema (koyu / açık) ---------- */
+(function () {
+  var KEY = 'es_theme';
+  function get() { try { return localStorage.getItem(KEY) || 'light'; } catch (e) { return 'light'; } }
+  function apply(t) { document.documentElement.classList.toggle('es-dark', t === 'dark'); var b = document.getElementById('es-theme-btn'); if (b) b.textContent = t === 'dark' ? '☀' : '☾'; }
+  var st = document.createElement('style');
+  st.textContent = 'html.es-dark{filter:invert(.93) hue-rotate(180deg);background:#fff}html.es-dark img,html.es-dark video,html.es-dark .leaflet-container{filter:invert(1) hue-rotate(180deg)}#es-theme-btn{position:fixed;right:14px;bottom:84px;z-index:99999;width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.2);background:#fff;color:#222;font-size:20px;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}';
+  document.head.appendChild(st);
+  apply(get());
+  function mount() {
+    if (document.getElementById('es-theme-btn')) return;
+    var b = document.createElement('button'); b.id = 'es-theme-btn'; b.type = 'button'; b.setAttribute('aria-label', 'Tema değiştir');
+    b.onclick = function () { var n = get() === 'dark' ? 'light' : 'dark'; try { localStorage.setItem(KEY, n); } catch (e) {} apply(n); };
+    document.documentElement.appendChild(b); apply(get());
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
+})();
