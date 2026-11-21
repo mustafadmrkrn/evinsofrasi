@@ -172,6 +172,12 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   const k = c.kitchen;
   const root = ES.mountKitchen('menu', 'Menü Yönetimi', 'Yemekleri aç/kapat, fiyat ve öğün ayarla, saat kontenjanlarını belirle');
   let dishes = [], slots = [];
+  let targets = [];
+  try {
+    const ks = await ES.q(ES.sb.from('kitchens').select('id,name,districts(cities(name))').order('id'));
+    targets = ks.map((x) => ({ id: x.id, name: x.name, city: ((x.districts || []).map((d) => d.cities && d.cities.name).filter(Boolean)[0]) || 'Şehir yok' }));
+  } catch (e) { targets = [{ id: k.id, name: k.name, city: 'Şehir' }]; }
+  if (c.profile.role !== 'admin') targets = targets.filter((t) => t.id === k.id);
   async function load() {
     dishes = await ES.q(ES.sb.from('dishes').select('*').eq('kitchen_id', k.id).order('category').order('name'));
     slots = await ES.q(ES.sb.from('slots').select('*').eq('kitchen_id', k.id).order('meal').order('start_time'));
@@ -187,6 +193,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
       '<div class="flex flex-col gap-1"><label class="font-body text-label-sm">Kategori</label><select id="n-cat" class="' + inp + '">' + ES.CAT_ORDER.map((x) => '<option value="' + x + '">' + ES.CAT[x] + '</option>').join('') + '</select></div>' +
       '<div class="flex flex-col gap-1"><label class="font-body text-label-sm">Fiyat (₺)</label><input id="n-price" type="number" min="0" step="5" class="' + inp + '"></div>' +
       '<button id="n-add" class="min-h-[40px] px-5 rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Ekle</button>' +
+      '<div class="flex flex-col gap-1 col-span-5"><label class="font-body text-label-sm">Hangi şehir / mutfaklara eklensin?</label><div class="flex flex-wrap gap-2">' + targets.map((t) => '<label class="flex items-center gap-2 px-3 py-2 rounded-full border border-light-outline-variant bg-light-surface-container-low font-body text-body-md"><input type="checkbox" data-target="' + t.id + '"' + (t.id === k.id ? ' checked' : '') + '>' + ES.esc(t.city) + ' · ' + ES.esc(t.name) + '</label>').join('') + '</div></div>' +
       '<div class="flex flex-col gap-1 col-span-5"><label class="font-body text-label-sm">Açıklama</label><input id="n-desc" class="' + inp + ' w-full"></div></div></section>' +
     '<section class="bg-light-surface-container-lowest rounded-lg p-gutter-xl border border-light-outline-variant shadow-sm flex flex-col gap-gutter-md"><h2 class="font-headline text-headline-sm">Saat Dilimi Kontenjanları</h2><p class="font-body text-body-sm text-light-on-surface-variant">Her dilimde bir günde alınacak en fazla sipariş sayısı.</p><div class="grid grid-cols-4 gap-gutter-md">' + slots.map((s) => '<div class="flex flex-col gap-1 p-gutter-md rounded-md border border-light-outline-variant"><span class="font-body text-label-md tabular-nums">' + ES.MEAL[s.meal] + ' ' + ES.hm(s.start_time) + '–' + ES.hm(s.end_time) + '</span><input data-cap="' + s.id + '" type="number" min="1" max="500" value="' + s.capacity + '" class="' + inp + ' tabular-nums"></div>').join('') + '</div></section>';
 
@@ -198,8 +205,12 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     document.getElementById('n-add').addEventListener('click', (e) => ES.busy(e.currentTarget, async () => {
       const name = document.getElementById('n-name').value.trim(), price = Number(document.getElementById('n-price').value);
       if (name.length < 2 || !(price >= 0) || document.getElementById('n-price').value === '') throw new Error('Yemek adı ve fiyat gerekli');
-      await ES.q(ES.sb.from('dishes').insert({ kitchen_id: k.id, name, category: document.getElementById('n-cat').value, price, description: document.getElementById('n-desc').value.trim() || null }));
-      ES.toast('Yemek eklendi', 'ok'); await load();
+      const ids = [...root.querySelectorAll('[data-target]:checked')].map((x) => Number(x.dataset.target));
+      if (!ids.length) throw new Error('En az bir şehir / mutfak seç');
+      const desc = document.getElementById('n-desc').value.trim() || null, cat = document.getElementById('n-cat').value;
+      await ES.q(ES.sb.from('dishes').insert(ids.map((kid) => ({ kitchen_id: kid, name, category: cat, price, description: desc }))));
+      const names = targets.filter((t) => ids.includes(t.id)).map((t) => t.city).join(', ');
+      ES.toast('Eklendi: ' + names, 'ok'); await load();
     }));
   }
   load().catch(ES.fail);
