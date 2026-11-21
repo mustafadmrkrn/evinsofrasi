@@ -222,11 +222,41 @@ window.ES = (function () {
 /* ---------- tema (koyu / açık) ---------- */
 (function () {
   var KEY = 'es_theme';
+  // koyu tema: nötr gri ve beyaz
+  var T = {
+    'light-surface': '#121212', 'light-background': '#121212', 'light-surface-dim': '#0E0E0E', 'light-surface-bright': '#2A2A2A',
+    'light-surface-container-lowest': '#1E1E1E', 'light-surface-container-low': '#1A1A1A', 'light-surface-container': '#232323',
+    'light-surface-container-high': '#2B2B2B', 'light-surface-container-highest': '#333333', 'light-surface-variant': '#2B2B2B',
+    'light-on-surface': '#EDEDED', 'light-on-background': '#EDEDED', 'light-on-surface-variant': '#B5B5B5',
+    'light-outline': '#8A8A8A', 'light-outline-variant': '#3A3A3A',
+    'light-primary': '#E8E8E8', 'light-on-primary': '#121212', 'light-primary-container': '#3A3A3A', 'light-on-primary-container': '#EDEDED',
+    'light-secondary': '#BDBDBD', 'light-on-secondary': '#121212', 'light-secondary-container': '#2F2F2F', 'light-on-secondary-container': '#E2E2E2',
+    'light-tertiary': '#BDBDBD', 'light-on-tertiary': '#121212', 'light-tertiary-container': '#333333', 'light-on-tertiary-container': '#EEEEEE',
+    'light-inverse-surface': '#EDEDED', 'light-inverse-on-surface': '#121212', 'light-inverse-primary': '#555555',
+    'light-error': '#CF6679', 'light-on-error': '#121212', 'light-error-container': '#3A1F23', 'light-on-error-container': '#FFD9DE',
+    'success': '#8FCB95', 'on-success': '#121212', 'success-container': '#1F2A20', 'on-success-container': '#CDE8CF',
+    'warning': '#D9A441', 'on-warning': '#121212', 'warning-container': '#2E2618', 'on-warning-container': '#F2D9A8',
+    'info': '#9DBDD6', 'on-info': '#121212', 'info-container': '#1D2630', 'on-info-container': '#CFE3F5',
+    'terracotta': '#E08A4F', 'olive': '#BDBDBD'
+  };
+  function css() {
+    var o = ['html.es-dark{background:#121212;color-scheme:dark}', 'html.es-dark .bg-white{background-color:#1E1E1E!important}', 'html.es-dark .leaflet-tile{filter:invert(1) grayscale(1) brightness(.9)}', 'html.es-dark ::placeholder{color:#8A8A8A}'];
+    Object.keys(T).forEach(function (t) {
+      var c = T[t], p = 'html.es-dark ';
+      o.push(p + '.bg-' + t + '{background-color:' + c + '!important}', p + '.text-' + t + '{color:' + c + '!important}', p + '.border-' + t + '{border-color:' + c + '!important}',
+        p + '.divide-' + t + ' > :not([hidden]) ~ :not([hidden]){border-color:' + c + '!important}',
+        p + '.focus\\:ring-' + t + ':focus{--tw-ring-color:' + c + '!important}',
+        p + '.hover\\:bg-' + t + ':hover{background-color:' + c + '!important}',
+        p + '.peer:checked ~ .peer-checked\\:bg-' + t + '{background-color:' + c + '!important}',
+        p + '.after\\:bg-' + t + '::after{background-color:#8A8A8A!important}');
+    });
+    o.push('#es-theme-btn,#es-lang-btn{background:#fff;color:#222}', 'html.es-dark #es-theme-btn,html.es-dark #es-lang-btn{background:#2B2B2B;color:#EDEDED;border-color:#555}', 'html.es-dark #es-lang-menu{background:#2B2B2B;color:#EDEDED}', 'html.es-dark #es-lang-menu button{color:#EDEDED}', 'html.es-dark #es-lang-menu button:hover{background:#3A3A3A}', 'html.es-dark #es-lang-menu button.on{background:#444}');
+    o.push('#es-theme-btn{position:fixed;right:14px;bottom:84px;z-index:99999;width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.2);font-size:20px;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}');
+    return o.join('\n');
+  }
   function get() { try { return localStorage.getItem(KEY) || 'light'; } catch (e) { return 'light'; } }
   function apply(t) { document.documentElement.classList.toggle('es-dark', t === 'dark'); var b = document.getElementById('es-theme-btn'); if (b) b.textContent = t === 'dark' ? '☀' : '☾'; }
-  var st = document.createElement('style');
-  st.textContent = 'html.es-dark{filter:invert(.93) hue-rotate(180deg);background:#fff}html.es-dark img,html.es-dark video,html.es-dark .leaflet-container{filter:invert(1) hue-rotate(180deg)}#es-theme-btn{position:fixed;right:14px;bottom:84px;z-index:99999;width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.2);background:#fff;color:#222;font-size:20px;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}';
-  document.head.appendChild(st);
+  var st = document.createElement('style'); st.textContent = css(); document.head.appendChild(st);
   apply(get());
   function mount() {
     if (document.getElementById('es-theme-btn')) return;
