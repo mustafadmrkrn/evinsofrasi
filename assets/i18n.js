@@ -1,4 +1,4 @@
-/* Evin Sofrası — çok dilli arayüz (TR / EN / DE / AR / RU)
+/* Yarının Sofrası — çok dilli arayüz (TR / EN / DE / AR / RU)
    Mantık: sayfadaki Türkçe metin parçaları sözlükten bulunup seçili dile çevrilir. */
 (function () {
   'use strict';
@@ -107,7 +107,7 @@
     ['Yarının Menüsü · ', "Tomorrow's Menu · ", 'Menü für morgen · ', 'قائمة الغد · ', 'Меню на завтра · '],
     ['Yarının Menüsü', "Tomorrow's Menu", 'Menü für morgen', 'قائمة الغد', 'Меню на завтра'],
     ['Yarının Siparişi (', "Tomorrow's Order (", 'Bestellung für morgen (', 'طلب الغد (', 'Заказ на завтра ('],
-    ['Evin Sofrası ile tanış', 'Meet Evin Sofrası', 'Lerne Evin Sofrası kennen', 'تعرّف على سفرة البيت', 'Знакомство с Evin Sofrası'],
+    ['Yarının Sofrası ile tanış', 'Meet Yarının Sofrası', 'Lerne Yarının Sofrası kennen', 'تعرّف على سفرة الغد', 'Знакомство с Yarının Sofrası'],
     ['Bölgenin Lezzeti', 'Taste of the Region', 'Geschmack der Region', 'نكهة المنطقة', 'Вкус региона'],
     ['Bölgenin yemekleri, ev lezzetiyle', 'Regional dishes with a homemade taste', 'Regionale Gerichte mit Hausmannskost-Geschmack', 'أطباق المنطقة بنكهة البيت', 'Блюда региона с домашним вкусом'],
     ['Üyelere Özel', 'Members only', 'Nur für Mitglieder', 'للأعضاء فقط', 'Только для участников'],
