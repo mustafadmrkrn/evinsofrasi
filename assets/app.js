@@ -80,8 +80,13 @@ window.ES = (function () {
       return ctx;
     }
     if (ctx.profile.role === 'kitchen') { location.replace('mutfak-sabah.html'); return null; }
-    if (ctx.profile.district_id) {
-      ctx.district = await q(sb.from('districts').select('*, cities(name)').eq('id', ctx.profile.district_id).single());
+    let did = ctx.profile.district_id; ctx.location = null;
+    let loc = null; try { loc = localStorage.getItem('es_loc'); } catch (e) { /* yok say */ }
+    if (loc && loc !== 'home') {
+      try { const a = await q(sb.from('addresses').select('id,label,district_id').eq('id', Number(loc)).maybeSingle()); if (a) { did = a.district_id; ctx.location = a; } else { localStorage.removeItem('es_loc'); } } catch (e) { /* kayıtlı adrese dön */ }
+    }
+    if (did) {
+      ctx.district = await q(sb.from('districts').select('*, cities(name)').eq('id', did).single());
       if (ctx.district.kitchen_id) ctx.kitchen = await q(sb.from('kitchens').select('*').eq('id', ctx.district.kitchen_id).single());
     }
     return ctx;
@@ -106,8 +111,8 @@ window.ES = (function () {
   }
   function appHeader(label, title, right) {
     return '<header class="sticky top-0 z-20 bg-light-surface border-b border-light-outline-variant px-page-margin py-3 flex items-center justify-between gap-gutter-sm">' +
-      '<div class="flex items-center gap-gutter-sm min-w-0"><div class="w-9 h-9 rounded-md bg-light-primary text-light-on-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[20px]">location_on</span></div>' +
-      '<div class="min-w-0"><span class="block font-body text-label-sm text-light-on-surface-variant">' + esc(label) + '</span><span class="block font-body text-title-md text-light-on-surface truncate">' + esc(title) + '</span></div></div>' + (right || '') + '</header>';
+      '<div id="es-loc-btn" role="button" tabindex="0" class="flex items-center gap-gutter-sm min-w-0 cursor-pointer"><div class="w-9 h-9 rounded-md bg-light-primary text-light-on-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[20px]">location_on</span></div>' +
+      '<div class="min-w-0"><span class="block font-body text-label-sm text-light-on-surface-variant">' + esc(label) + '</span><span class="block font-body text-title-md text-light-on-surface truncate">' + esc(title) + '</span></div><span class="material-symbols-outlined text-[18px] text-light-on-surface-variant">expand_more</span></div>' + (right || '') + '</header>';
   }
   function cartPill() {
     return '<a href="odeme.html" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface"><span class="material-symbols-outlined text-[18px] text-light-primary">shopping_bag</span><span data-cart-count class="font-body text-label-md tabular-nums">' + Cart.count() + '</span></a>';
@@ -174,7 +179,44 @@ window.ES = (function () {
   }
 
   const DIET = { standart: 'Standart', vegan: 'Vegan', vejetaryen: 'Vejetaryen', protein: 'Protein Ağırlıklı', sporcu: 'Sporcu', hafif: 'Hafif / Diyet', glutensiz: 'Glutensiz' };
-  return { DIET, sb, ctx, init, signOut, q, toast, fail, busy, esc, money, hm, nowHM, trDate, todayISO, tomorrowISO, addDays, dowOf, DOW, MONTHS, MEAL, CAT, CAT_ORDER, Cart, dishImg, appHeader, cartPill, refreshCartPill, tabbar, noKitchenBanner, startCountdown, orderStages, canEdit, kitchenDate, mountKitchen, secondsToMidnight, hms };
+  /* ---------- konum / şehir değiştirme (farklı şehirde sipariş) ---------- */
+  async function openLocPicker() {
+    if (document.getElementById('es-loc-modal')) return;
+    const prof = ctx.profile; if (!prof) return;
+    let addrs = [], cities = [], dists = [];
+    try {
+      addrs = await q(sb.from('addresses').select('*').order('id'));
+      cities = await q(sb.from('cities').select('id,name').order('name'));
+      dists = await q(sb.from('districts').select('id,city_id,name,status,kitchen_id').eq('status', 'active').order('name'));
+    } catch (e) { return fail(e); }
+    const dn = (id) => { const d = dists.find((x) => x.id === id); const c = d && cities.find((x) => x.id === d.city_id); return d ? (c ? c.name + ' / ' : '') + d.name : ''; };
+    let homeName = ''; try { const h = await q(sb.from('districts').select('name, cities(name)').eq('id', prof.district_id).single()); homeName = h.cities.name + ' / ' + h.name; } catch (e) { /* boş */ }
+    const cur = ctx.location ? String(ctx.location.id) : 'home';
+    const m = document.createElement('div'); m.id = 'es-loc-modal';
+    m.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center';
+    const fld = 'w-full min-h-[44px] px-3 rounded-md bg-light-surface-container-low border border-light-outline-variant font-body text-body-md';
+    const opt = (id, title, sub) => '<button data-loc="' + id + '" class="w-full text-left p-gutter-md rounded-lg border ' + (cur === String(id) ? 'border-2 border-light-primary' : 'border-light-outline-variant') + ' bg-light-surface-container-lowest flex flex-col"><span class="font-body text-title-md">' + esc(title) + '</span><span class="font-body text-body-sm text-light-on-surface-variant">' + esc(sub) + '</span></button>';
+    const usable = cities.filter((c) => dists.some((d) => d.city_id === c.id));
+    m.innerHTML = '<div class="bg-light-surface w-full max-w-[480px] max-h-[88vh] overflow-y-auto rounded-t-2xl p-5 flex flex-col gap-3 font-body"><div class="flex items-center justify-between"><h2 class="font-headline text-title-lg">Nereye sipariş verelim?</h2><button id="loc-x" class="text-2xl leading-none px-2" aria-label="Kapat">×</button></div><p class="text-body-sm text-light-on-surface-variant">Seçtiğin adresin şehrindeki mutfaktan sipariş verirsin. Başka şehre ya da şantiye/ofis adresine gidiyorsan adresi ekle.</p>' +
+      opt('home', 'Kayıtlı adresim', homeName) + addrs.map((a) => opt(a.id, a.label, [a.address_text, dn(a.district_id)].filter(Boolean).join(' — '))).join('') +
+      '<details class="rounded-lg border border-light-outline-variant p-3"><summary class="font-body text-title-md cursor-pointer">+ Yeni adres / başka şehir</summary><div class="grid grid-cols-2 gap-2 mt-3"><select id="l-il" class="' + fld + '">' + usable.map((c) => '<option value="' + c.id + '">' + esc(c.name) + '</option>').join('') + '</select><select id="l-ilce" class="' + fld + '"></select><select id="l-label" class="' + fld + ' col-span-2">' + ['Şantiye', 'İş yeri', 'Ofis', 'Ev', 'Diğer'].map((x) => '<option>' + x + '</option>').join('') + '</select><input id="l-text" placeholder="Mahalle / cadde / sokak" class="' + fld + ' col-span-2"><input id="l-bina" placeholder="Bina / blok" class="' + fld + '"><input id="l-kat" placeholder="Kat" class="' + fld + '"><input id="l-dai" placeholder="Daire / oda" class="' + fld + '"><input id="l-note" placeholder="Teslimat notu" class="' + fld + '"><button id="l-save" class="col-span-2 min-h-[44px] rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Kaydet ve Bu Adrese Sipariş Ver</button></div></details></div>';
+    document.documentElement.appendChild(m);
+    const close = () => m.remove();
+    m.addEventListener('click', (e) => { if (e.target === m) close(); });
+    m.querySelector('#loc-x').onclick = close;
+    const fillIlce = () => { const cid = Number(m.querySelector('#l-il').value); m.querySelector('#l-ilce').innerHTML = dists.filter((d) => d.city_id === cid).map((d) => '<option value="' + d.id + '">' + esc(d.name) + '</option>').join(''); };
+    if (usable.length) { m.querySelector('#l-il').onchange = fillIlce; fillIlce(); }
+    const choose = (v) => { try { if (v === 'home') localStorage.removeItem('es_loc'); else localStorage.setItem('es_loc', String(v)); } catch (e) { /* yok say */ } if (String(v) !== cur) Cart.clear(); location.reload(); };
+    m.querySelectorAll('[data-loc]').forEach((b) => { b.onclick = () => choose(b.dataset.loc); });
+    m.querySelector('#l-save').onclick = (e) => busy(e.currentTarget, async () => {
+      const g = (id) => m.querySelector('#' + id).value.trim();
+      if (g('l-text').length < 3) throw new Error('Adres yazmalısın');
+      const row = await q(sb.from('addresses').insert({ label: g('l-label'), district_id: Number(g('l-ilce')), address_text: g('l-text'), building: g('l-bina') || null, floor: g('l-kat') || null, apartment: g('l-dai') || null, note: g('l-note') || null }).select().single());
+      choose(row.id);
+    });
+  }
+  document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('#es-loc-btn')) openLocPicker(); });
+  return { openLocPicker, DIET, sb, ctx, init, signOut, q, toast, fail, busy, esc, money, hm, nowHM, trDate, todayISO, tomorrowISO, addDays, dowOf, DOW, MONTHS, MEAL, CAT, CAT_ORDER, Cart, dishImg, appHeader, cartPill, refreshCartPill, tabbar, noKitchenBanner, startCountdown, orderStages, canEdit, kitchenDate, mountKitchen, secondsToMidnight, hms };
 })();
 
 /* ---------- tema (koyu / açık) ---------- */
