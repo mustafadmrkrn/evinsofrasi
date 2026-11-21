@@ -257,7 +257,27 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
       '<div class="min-w-0"><div class="font-title-md truncate">' + ES.esc(u.full_name || '-') + '</div><div class="text-body-sm text-light-on-surface-variant truncate">' + ES.esc((u.email || '').replace('@evinsofrasi.local', '')) + (u.phone ? ' · ' + ES.esc(u.phone) : '') + '</div></div>' +
       '<div class="flex gap-2 items-center"><select class="r min-h-[40px] px-2 rounded-md border border-light-outline-variant">' + Object.keys(RL).map(r => '<option value="' + r + '"' + (u.role === r ? ' selected' : '') + '>' + RL[r] + '</option>').join('') + '</select>' +
       '<select class="k min-h-[40px] px-2 rounded-md border border-light-outline-variant">' + kopt(u.kitchen_id) + '</select>' +
-      '<button class="sv min-h-[40px] px-4 rounded-full bg-light-primary text-light-on-primary">Kaydet</button></div></div>').join('') || '<p class="text-light-on-surface-variant">Kayıt yok.</p>';
+      '<button class="sv min-h-[40px] px-4 rounded-full bg-light-primary text-light-on-primary">Kaydet</button><button class="pw min-h-[40px] px-3 rounded-full border border-light-outline-variant">Şifre</button></div></div>').join('') || '<p class="text-light-on-surface-variant">Kayıt yok.</p>';
+    document.querySelectorAll('.pw').forEach(b => b.onclick = () => {
+      const row = b.closest('[data-id]'), u = users.find(x => x.id === row.dataset.id);
+      const gen = () => { const a = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789'; const r = crypto.getRandomValues(new Uint32Array(10)); return Array.from(r, x => a[x % a.length]).join(''); };
+      const m = document.createElement('div');
+      m.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px';
+      m.innerHTML = '<div class="bg-light-surface rounded-xl p-5 w-full max-w-[420px] flex flex-col gap-3 font-body"><h3 class="font-headline text-title-lg">Şifre değiştir</h3><p class="text-body-sm text-light-on-surface-variant">' + ES.esc(u.full_name || '') + ' · ' + ES.esc((u.email || '').replace('@evinsofrasi.local', '')) + '<br>Mevcut şifre görülemez (şifreler şifreli saklanır). Yeni bir şifre belirleyip kullanıcıya iletebilirsin.</p><input id="np" class="min-h-[44px] px-3 rounded-md border border-light-outline-variant bg-white font-mono" value="' + gen() + '"><div class="flex gap-2"><button id="ng" class="min-h-[44px] px-3 rounded-full border border-light-outline-variant">Rastgele üret</button><button id="ns" class="flex-1 min-h-[44px] rounded-full bg-light-primary text-light-on-primary">Şifreyi Değiştir</button></div><button id="nx" class="underline text-light-on-surface-variant">Kapat</button></div>';
+      document.documentElement.appendChild(m);
+      m.querySelector('#nx').onclick = () => m.remove();
+      m.querySelector('#ng').onclick = () => { m.querySelector('#np').value = gen(); };
+      m.querySelector('#ns').onclick = (e) => ES.busy(e.currentTarget, async () => {
+        const pw = m.querySelector('#np').value.trim();
+        const { data, error } = await ES.sb.functions.invoke('admin-users', { body: { action: 'set_password', user_id: u.id, password: pw } });
+        if (error) { let msg = error.message; try { msg = (await error.context.json()).error || msg; } catch (_) {} throw new Error(msg); }
+        if (data && data.error) throw new Error(data.error);
+        m.querySelector('.font-headline').textContent = 'Şifre değiştirildi';
+        m.querySelector('p').innerHTML = 'Yeni şifreyi kullanıcıya ilet. Bu ekran kapanınca bir daha görülemez:';
+        m.querySelector('#ns').style.display = 'none'; m.querySelector('#ng').style.display = 'none';
+        try { await navigator.clipboard.writeText(pw); ES.toast('Şifre kopyalandı', 'ok'); } catch (_) {}
+      });
+    });
     document.querySelectorAll('.sv').forEach(b => b.onclick = () => {
       const row = b.closest('[data-id]');
       ES.busy(b, async () => {
