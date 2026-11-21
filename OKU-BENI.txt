@@ -1,0 +1,43 @@
+EVIN SOFRASI - CALISAN PROTOTIP
+===============================
+
+NASIL ACILIR
+1) Bu klasoru zip'ten cikar.
+2) index.html dosyasina cift tikla (Chrome veya Edge ile ac).
+   - Firefox dosyadan acilan sayfalarda oturumu hatirlamaz; Chrome/Edge kullan.
+   - Internet gerekir (veritabani, harita, yazi tipleri).
+   - Daha saglam yol: VS Code'da klasoru ac, "Live Server" ile index.html'i calistir.
+
+ILK KURULUM (bir kere)
+A) Supabase panelinde: Authentication > Providers > Email > "Confirm email" seceneğini KAPAT.
+   (Kapatmazsan kayit olduktan sonra giris yapilamaz; e-posta onayi ister.)
+B) Uye ol ekranindan kendi hesabini olustur (demo SMS kodu: 123456).
+C) Mutfak paneli yetkisi icin Supabase > SQL Editor'de calistir:
+     update public.profiles set role = 'kitchen', kitchen_id = 1
+     where email = 'SENIN-EPOSTAN';
+   (kitchen_id 1 = Defne Merkez Mutfagi, 2 = Alanya Merkez Mutfagi.
+    Tum mutfaklari gormek icin role = 'admin' yap.)
+   Sonra giris yapinca Profil > "Mutfak Paneline Git" gorunur.
+
+DENEME AKISI
+1. Musteri hesabiyla: Ana Sayfa > Sepete ekle > Odeme > saat dilimi sec > Onayla.
+2. Ayni hesapla Siparislerim: durum, duzenle, iptal.
+3. Paketler: haftalik/aylik paket sec, gun gun menu sec, gun atla.
+4. Mutfak hesabiyla: tarih secicisinden "yarin" i sec -> Sabah Ozeti, Uretim Plani (%5 tampon),
+   Teslimat (paketleme, kuryeye teslim). Gece 00:00'dan sonra "bugun" bu siparisleri gosterir.
+
+KURALLAR (veritabaninda zorlanir)
+- Siparis sadece yarin icin verilir; 00:00 (Istanbul) gecince bugunun siparisi kapanir/duzenlenemez.
+- Her saat diliminin kontenjani var (varsayilan 30 siparis).
+- Fiyatlar sunucuda yemek tablosundan hesaplanir, tarayicidan degistirilemez.
+- Eve teslim ucreti mutfak basina ayarlanir (varsayilan 25 TL).
+
+DEMO OLAN / EKSIK KISIMLAR
+- SMS dogrulama ve odeme simule edilir (gercek SMS/odeme saglayici baglanmadi).
+- Alanya yemek adlari ornektir (Alanya Tava, Gulluklu Corba); Menu Yonetimi'nden duzenle.
+- Bildirim (SMS/push) ve canli kurye konumu yok.
+
+DOSYALAR
+assets/config.js  : Supabase adresi ve herkese acik anahtar
+assets/app.js     : ortak kod (giris, sepet, geri sayim, mutfak kabugu)
+*.html            : ekranlar (mutfak-*.html = mutfak paneli)

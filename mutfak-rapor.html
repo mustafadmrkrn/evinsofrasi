@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Evin Sofrası Mutfak — Raporlar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'cream': '#FFF8F0',
+        'olive': '#4A5D23',
+        'terracotta': '#D2691E',
+        'accent': '#D2691E',
+        'success': '#2E6B34',
+        'on-success': '#FFFFFF',
+        'success-container': '#E3F2E4',
+        'on-success-container': '#163B1A',
+        'warning': '#A35800',
+        'on-warning': '#FFFFFF',
+        'warning-container': '#FFF0D6',
+        'on-warning-container': '#592D00',
+        'info': '#2A5B7C',
+        'on-info': '#FFFFFF',
+        'info-container': '#E1F0FA',
+        'on-info-container': '#12354D',
+        'light-primary': '#4A5D23',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#D4ECA2',
+        'light-on-primary-container': '#253600',
+        'light-secondary': '#9A4600',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#FFEDE5',
+        'light-on-secondary-container': '#532200',
+        'light-tertiary': '#5A3059',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#FFD6F8',
+        'light-on-tertiary-container': '#310A33',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FFF8F0',
+        'light-on-background': '#1E1B17',
+        'light-surface': '#FFF8F0',
+        'light-surface-dim': '#DFD9D1',
+        'light-surface-bright': '#FFFFFF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F9F3EB',
+        'light-surface-container': '#F4EDE5',
+        'light-surface-container-high': '#EEE7DF',
+        'light-surface-container-highest': '#E8E1DA',
+        'light-on-surface': '#1E1B17',
+        'light-surface-variant': '#E2E4D4',
+        'light-on-surface-variant': '#4A4641',
+        'light-outline': '#76786B',
+        'light-outline-variant': '#D9D2C9',
+        'light-inverse-surface': '#33302B',
+        'light-inverse-on-surface': '#F7F0E8',
+        'light-inverse-primary': '#B8CF88',
+        'dark-primary': '#B8CF88',
+        'dark-on-primary': '#253600',
+        'dark-primary-container': '#4A5D23',
+        'dark-on-primary-container': '#D4ECA2',
+        'dark-secondary': '#FFB68D',
+        'dark-on-secondary': '#532200',
+        'dark-secondary-container': '#9A4600',
+        'dark-on-secondary-container': '#FFEDE5',
+        'dark-tertiary': '#EDB5E7',
+        'dark-on-tertiary': '#310A33',
+        'dark-tertiary-container': '#5A3059',
+        'dark-on-tertiary-container': '#FFD6F8',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#15130F',
+        'dark-on-background': '#E8E1DA',
+        'dark-surface': '#15130F',
+        'dark-surface-dim': '#15130F',
+        'dark-surface-bright': '#3C3933',
+        'dark-surface-container-lowest': '#100E0A',
+        'dark-surface-container-low': '#1E1B17',
+        'dark-surface-container': '#221F1B',
+        'dark-surface-container-high': '#2C2A25',
+        'dark-surface-container-highest': '#37342F',
+        'dark-on-surface': '#E8E1DA',
+        'dark-surface-variant': '#45483C',
+        'dark-on-surface-variant': '#C6C8B8',
+        'dark-outline': '#8F9284',
+        'dark-outline-variant': '#45483C',
+        'dark-inverse-surface': '#E8E1DA',
+        'dark-inverse-on-surface': '#33302B',
+        'dark-inverse-primary': '#4A5D23',
+      },
+      borderRadius: {
+        'sm': '8px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+        'dashboard-margin': '28px',
+      },
+      fontFamily: {
+        'display': ['"Poppins"', 'sans-serif'],
+        'headline': ['"Poppins"', 'sans-serif'],
+        'title': ['"Nunito"', 'sans-serif'],
+        'body': ['"Nunito"', 'sans-serif'],
+        'label': ['"Nunito"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '700' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '700' }],
+        'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.15px', fontWeight: '700' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.25px', fontWeight: '700' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'mono-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Nunito:wght@500;600;700;800&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script src="assets/images.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+<div id="boot"></div>
+<script>
+(async () => {
+  const c = await ES.init({ role: 'kitchen' });
+  if (!c) return;
+  const k = c.kitchen;
+  const root = ES.mountKitchen('rapor', 'Raporlar', 'Son 14 günün sipariş, porsiyon ve ciro özeti (yarın dahil)');
+  let rows = [];
+  try { rows = await ES.q(ES.sb.rpc('kitchen_report', { p_kitchen: k.id, p_days: 14 })); } catch (e) { ES.fail(e); return; }
+  const past = rows.filter((r) => r.day <= ES.todayISO());
+  const sum = (key, arr) => arr.reduce((a, r) => a + Number(r[key]), 0);
+  const max = Math.max(1, ...rows.map((r) => r.orders));
+  const card = 'bg-light-surface-container-lowest rounded-lg p-gutter-lg border border-light-outline-variant shadow-sm flex flex-col gap-1';
+  root.innerHTML = '<section class="grid grid-cols-3 gap-gutter-lg">' +
+    '<article class="' + card + '"><span class="font-body text-label-md text-light-on-surface-variant">Toplam Sipariş (14 gün)</span><span class="font-headline text-display-lg text-light-primary tabular-nums">' + sum('orders', past) + '</span></article>' +
+    '<article class="' + card + '"><span class="font-body text-label-md text-light-on-surface-variant">Toplam Porsiyon</span><span class="font-headline text-display-lg tabular-nums">' + sum('portions', past) + '</span></article>' +
+    '<article class="' + card + '"><span class="font-body text-label-md text-light-on-surface-variant">Ciro</span><span class="font-headline text-display-lg text-terracotta tabular-nums">' + ES.money(sum('revenue', past)) + '</span></article></section>' +
+    '<section class="bg-light-surface-container-lowest rounded-lg border border-light-outline-variant shadow-sm overflow-hidden"><table class="w-full text-left"><thead><tr class="bg-light-surface-container-low">' + ['Tarih', 'Sipariş', 'Porsiyon', 'Ciro', ''].map((h) => '<th class="px-5 py-3 font-body text-label-md text-light-on-surface-variant">' + h + '</th>').join('') + '</tr></thead><tbody class="divide-y divide-light-outline-variant">' +
+    rows.map((r) => '<tr><td class="px-5 py-3 font-body text-title-md tabular-nums"><a class="underline" href="mutfak-sabah.html?d=' + r.day + '">' + ES.trDate(r.day) + '</a>' + (r.day === ES.todayISO() ? ' <span class="px-2 py-0.5 rounded-full bg-success-container text-on-success-container font-body text-label-sm">Bugün</span>' : r.day > ES.todayISO() ? ' <span class="px-2 py-0.5 rounded-full bg-light-secondary-container text-light-on-secondary-container font-body text-label-sm">Yarın</span>' : '') + '</td><td class="px-5 py-3 tabular-nums font-body text-body-md">' + r.orders + '</td><td class="px-5 py-3 tabular-nums font-body text-body-md">' + r.portions + '</td><td class="px-5 py-3 tabular-nums font-body text-body-md">' + ES.money(r.revenue) + '</td><td class="px-5 py-3 w-1/3"><div class="h-3 rounded-full bg-light-surface-container overflow-hidden"><div class="h-full rounded-full bg-light-primary" style="width:' + Math.round(100 * r.orders / max) + '%"></div></div></td></tr>').join('') + '</tbody></table></section>';
+})();
+</script>
+
+</body></html>

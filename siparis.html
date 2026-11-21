@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Evin Sofrası — Sipariş Onayı ve Takip</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'cream': '#FFF8F0',
+        'olive': '#4A5D23',
+        'terracotta': '#D2691E',
+        'accent': '#D2691E',
+        'success': '#2E6B34',
+        'on-success': '#FFFFFF',
+        'success-container': '#E3F2E4',
+        'on-success-container': '#163B1A',
+        'warning': '#A35800',
+        'on-warning': '#FFFFFF',
+        'warning-container': '#FFF0D6',
+        'on-warning-container': '#592D00',
+        'info': '#2A5B7C',
+        'on-info': '#FFFFFF',
+        'info-container': '#E1F0FA',
+        'on-info-container': '#12354D',
+        'light-primary': '#4A5D23',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#D4ECA2',
+        'light-on-primary-container': '#253600',
+        'light-secondary': '#9A4600',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#FFEDE5',
+        'light-on-secondary-container': '#532200',
+        'light-tertiary': '#5A3059',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#FFD6F8',
+        'light-on-tertiary-container': '#310A33',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FFF8F0',
+        'light-on-background': '#1E1B17',
+        'light-surface': '#FFF8F0',
+        'light-surface-dim': '#DFD9D1',
+        'light-surface-bright': '#FFFFFF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F9F3EB',
+        'light-surface-container': '#F4EDE5',
+        'light-surface-container-high': '#EEE7DF',
+        'light-surface-container-highest': '#E8E1DA',
+        'light-on-surface': '#1E1B17',
+        'light-surface-variant': '#E2E4D4',
+        'light-on-surface-variant': '#4A4641',
+        'light-outline': '#76786B',
+        'light-outline-variant': '#D9D2C9',
+        'light-inverse-surface': '#33302B',
+        'light-inverse-on-surface': '#F7F0E8',
+        'light-inverse-primary': '#B8CF88',
+        'dark-primary': '#B8CF88',
+        'dark-on-primary': '#253600',
+        'dark-primary-container': '#4A5D23',
+        'dark-on-primary-container': '#D4ECA2',
+        'dark-secondary': '#FFB68D',
+        'dark-on-secondary': '#532200',
+        'dark-secondary-container': '#9A4600',
+        'dark-on-secondary-container': '#FFEDE5',
+        'dark-tertiary': '#EDB5E7',
+        'dark-on-tertiary': '#310A33',
+        'dark-tertiary-container': '#5A3059',
+        'dark-on-tertiary-container': '#FFD6F8',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#15130F',
+        'dark-on-background': '#E8E1DA',
+        'dark-surface': '#15130F',
+        'dark-surface-dim': '#15130F',
+        'dark-surface-bright': '#3C3933',
+        'dark-surface-container-lowest': '#100E0A',
+        'dark-surface-container-low': '#1E1B17',
+        'dark-surface-container': '#221F1B',
+        'dark-surface-container-high': '#2C2A25',
+        'dark-surface-container-highest': '#37342F',
+        'dark-on-surface': '#E8E1DA',
+        'dark-surface-variant': '#45483C',
+        'dark-on-surface-variant': '#C6C8B8',
+        'dark-outline': '#8F9284',
+        'dark-outline-variant': '#45483C',
+        'dark-inverse-surface': '#E8E1DA',
+        'dark-inverse-on-surface': '#33302B',
+        'dark-inverse-primary': '#4A5D23',
+      },
+      borderRadius: {
+        'sm': '8px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+        'dashboard-margin': '28px',
+      },
+      fontFamily: {
+        'display': ['"Poppins"', 'sans-serif'],
+        'headline': ['"Poppins"', 'sans-serif'],
+        'title': ['"Nunito"', 'sans-serif'],
+        'body': ['"Nunito"', 'sans-serif'],
+        'label': ['"Nunito"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '700' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '700' }],
+        'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.15px', fontWeight: '700' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.25px', fontWeight: '700' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'mono-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Nunito:wght@500;600;700;800&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script src="assets/images.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+<div class="min-h-[884px] max-w-[390px] mx-auto bg-light-surface flex flex-col pb-24" id="app"></div>
+<script>
+(async () => {
+  const c = await ES.init({ role: 'customer' });
+  if (!c) return;
+  const app = document.getElementById('app');
+  const params = new URLSearchParams(location.search);
+  let orders = [];
+  try { orders = await ES.q(ES.sb.from('orders').select('*, order_items(*), slots(start_time,end_time), kitchens(name,address)').order('target_date', { ascending: false }).order('id', { ascending: false }).limit(40)); } catch (e) { ES.fail(e); }
+  const today = ES.todayISO();
+  const live = orders.filter((o) => o.status !== 'cancelled');
+  let cur = orders.find((o) => String(o.id) === params.get('id'));
+  if (!cur) { const up = live.filter((o) => o.target_date >= today).sort((a, b) => a.target_date.localeCompare(b.target_date) || a.id - b.id); cur = up[0] || live[0] || null; }
+  if (!orders.length) { app.innerHTML = ES.appHeader('Sipariş Takibi', 'Siparişlerim', '') + '<div class="p-gutter-xl text-center flex flex-col gap-gutter-md items-center"><span class="material-symbols-outlined text-[48px] text-light-outline">receipt_long</span><p class="font-body text-body-lg">Henüz siparişin yok.</p><a href="menu.html" class="inline-flex items-center justify-center min-h-[48px] px-6 rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Yarının menüsüne bak</a></div>' + ES.tabbar('siparis'); return; }
+
+  function detail(o) {
+    const cancelled = o.status === 'cancelled';
+    const st = ES.orderStages(o);
+    const slotTxt = ES.hm(o.slots.start_time) + ' – ' + ES.hm(o.slots.end_time);
+    const when = o.target_date === today ? 'Bugün' : o.target_date === ES.tomorrowISO() ? 'Yarın' : '';
+    const stageIcons = ['check', 'event_note', 'skillet', o.method === 'pickup' ? 'storefront' : 'delivery_dining', 'home'];
+    const sub = ['21 Kasım'];
+    return (params.get('new') ? '<section class="bg-success-container text-on-success-container rounded-lg p-gutter-lg flex flex-col items-center text-center gap-gutter-sm"><div class="w-14 h-14 rounded-full bg-success text-on-success flex items-center justify-center"><span class="material-symbols-outlined text-[30px]">check</span></div><h1 class="font-headline text-headline-sm">Siparişiniz Alındı!</h1><p class="font-body text-body-md"><strong class="tabular-nums">' + ES.trDate(o.target_date) + ' · ' + slotTxt + '</strong> aralığında ' + (o.method === 'pickup' ? 'mutfaktan teslim almak' : 'sıcak teslimat') + ' için planlandı.</p></section>' : '') +
+    (cancelled ? '<section class="bg-light-error-container text-light-on-error-container rounded-lg p-gutter-lg font-body text-body-md">Bu sipariş iptal edildi.</section>' : '') +
+    '<section class="bg-light-surface-container-lowest rounded-lg p-gutter-lg border border-light-outline-variant shadow-sm flex flex-col gap-gutter-md"><div class="flex items-center justify-between"><h2 class="font-headline text-title-lg">Sipariş Durumu</h2><span class="px-2.5 py-1 rounded-full bg-light-secondary-container text-light-on-secondary-container font-body text-label-sm">' + (o.method === 'pickup' ? 'Gel Al' : 'Eve Teslim') + '</span></div>' +
+    '<p class="font-body text-body-sm text-light-on-surface-variant">' + (when ? when + ' · ' : '') + ES.trDate(o.target_date) + ' · ' + ES.MEAL[o.meal] + ' · ' + slotTxt + (o.source === 'package' ? ' · Paket' : '') + '</p>' +
+    '<ol class="flex flex-col gap-gutter-md ' + (cancelled ? 'opacity-40' : '') + '">' + st.map((s, i) => '<li class="flex items-start gap-gutter-md"><span class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 ' + (s.state === 'done' ? 'bg-light-primary text-light-on-primary' : s.state === 'current' ? 'bg-terracotta text-light-on-primary' : 'bg-light-surface-container-highest text-light-on-surface-variant') + '"><span class="material-symbols-outlined text-[16px]">' + (s.state === 'done' ? 'check' : stageIcons[i]) + '</span></span><div><span class="block font-body text-title-md">' + s.label + '</span><span class="block font-body text-body-sm text-light-on-surface-variant">' + ['Sipariş kaydedildi · ' + o.order_no, '00:00 kapanışından sonra mutfak listesine alınır', ES.trDate(o.target_date) + ' sabahı mutfakta pişirilir', o.method === 'pickup' ? slotTxt + ' arasında mutfaktan alabilirsin' : slotTxt + ' diliminde yola çıkar', slotTxt][i] + '</span></div></li>').join('') + '</ol></section>' +
+    (o.method === 'delivery' ? '<section class="bg-light-surface-container-low rounded-lg p-gutter-lg border border-light-outline-variant flex items-center gap-gutter-md"><div class="w-11 h-11 rounded-full bg-light-primary-container text-light-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-[22px]">two_wheeler</span></div><div><span class="block font-body text-title-md">' + (o.courier_name ? 'Bölge Kuryesi: ' + ES.esc(o.courier_name) : 'Kurye henüz atanmadı') + '</span><span class="block font-body text-body-sm text-light-on-surface-variant tabular-nums">Tahmini Varış: ' + (when || ES.trDate(o.target_date)) + ' ' + slotTxt + '</span></div></div></section>' :
+      '<section class="bg-light-surface-container-low rounded-lg p-gutter-lg border border-light-outline-variant flex items-center gap-gutter-md"><div class="w-11 h-11 rounded-full bg-light-primary-container text-light-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-[22px]">storefront</span></div><div><span class="block font-body text-title-md">' + ES.esc(o.kitchens.name) + '</span><span class="block font-body text-body-sm text-light-on-surface-variant">' + ES.esc(o.kitchens.address) + '</span></div></section>') +
+    '<section class="bg-light-surface-container-lowest rounded-lg p-gutter-lg border border-light-outline-variant"><ul class="divide-y divide-light-outline-variant">' + o.order_items.map((i) => '<li class="py-2 flex items-center justify-between font-body text-body-md"><span>' + i.qty + 'x ' + ES.esc(i.name) + '</span><span class="tabular-nums">' + (Number(i.unit_price) ? ES.money(i.qty * i.unit_price) : 'Pakete dahil') + '</span></li>').join('') + '</ul><div class="pt-2 mt-1 border-t border-light-outline-variant flex items-center justify-between font-body text-title-md"><span>Toplam</span><span class="tabular-nums text-light-primary">' + ES.money(o.total) + '</span></div></section>' +
+    (ES.canEdit(o) ? '<div class="grid grid-cols-2 gap-gutter-md"><a href="menu.html?edit=' + o.id + '" class="inline-flex items-center justify-center gap-1.5 min-h-[48px] px-4 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-primary font-body text-label-md"><span class="material-symbols-outlined text-[18px]">edit</span>Siparişi Düzenle</a><button id="cancel" class="inline-flex items-center justify-center gap-1.5 min-h-[48px] px-4 rounded-full bg-light-surface-container-lowest border border-light-outline-variant text-light-error font-body text-label-md"><span class="material-symbols-outlined text-[18px]">close</span>İptal Et</button></div><p class="font-body text-body-sm text-light-on-surface-variant text-center">Siparişini bu gece saat 00:00\'a kadar ücretsiz düzenleyebilir veya iptal edebilirsin.</p>' : '<div class="grid grid-cols-2 gap-gutter-md"><a href="menu.html?reorder=' + o.id + '" class="inline-flex items-center justify-center min-h-[48px] px-4 rounded-full bg-light-primary text-light-on-primary font-body text-label-md">Tekrar Sipariş Ver</a><button id="help" class="inline-flex items-center justify-center gap-1.5 min-h-[48px] px-4 rounded-full bg-light-surface-container-lowest border border-light-outline-variant font-body text-label-md"><span class="material-symbols-outlined text-[18px]">support_agent</span>Destek</button></div>');
+  }
+
+  app.innerHTML = ES.appHeader('Sipariş Takibi', c.district ? c.district.name : '', '<span class="px-3 py-1 rounded-full bg-light-surface-container-lowest border border-light-outline-variant font-mono text-mono-sm text-light-primary tabular-nums">' + (cur ? cur.order_no : '') + '</span>') +
+    '<main class="flex-1 px-page-margin py-gutter-lg flex flex-col gap-gutter-xl">' + (cur ? detail(cur) : '') +
+    (orders.length > 1 ? '<section class="flex flex-col gap-gutter-sm"><h2 class="font-headline text-title-lg">Tüm Siparişlerim</h2>' + orders.map((o) => '<a href="siparis.html?id=' + o.id + '" class="bg-light-surface-container-lowest rounded-lg p-gutter-md border ' + (cur && o.id === cur.id ? 'border-light-primary' : 'border-light-outline-variant') + ' flex items-center justify-between gap-gutter-md"><div><span class="block font-mono text-mono-sm text-light-primary">' + o.order_no + '</span><span class="block font-body text-body-sm text-light-on-surface-variant">' + ES.trDate(o.target_date) + ' · ' + ES.MEAL[o.meal] + (o.source === 'package' ? ' · Paket' : '') + '</span></div><div class="text-right"><span class="block font-body text-label-md tabular-nums">' + ES.money(o.total) + '</span><span class="block font-body text-label-sm ' + (o.status === 'cancelled' ? 'text-light-error' : o.status === 'delivered' ? 'text-success' : 'text-light-on-surface-variant') + '">' + ({ placed: 'Alındı', preparing: 'Hazırlanıyor', ready: 'Hazır', on_the_way: 'Yolda', delivered: 'Teslim edildi', cancelled: 'İptal' }[o.status]) + '</span></div></a>').join('') + '</section>' : '') +
+    '</main>' + ES.tabbar('siparis');
+  const cb = document.getElementById('cancel');
+  if (cb) cb.addEventListener('click', () => { if (!confirm('Siparişi iptal etmek istediğine emin misin?')) return; ES.busy(cb, async () => { await ES.q(ES.sb.rpc('cancel_order', { p_order: cur.id })); ES.toast('Sipariş iptal edildi', 'ok'); setTimeout(() => location.replace('siparis.html'), 500); }); });
+  const hb = document.getElementById('help'); if (hb) hb.addEventListener('click', () => ES.toast('Demo: destek hattı sonraki aşamada eklenecek', 'info'));
+})();
+</script>
+
+</body></html>
