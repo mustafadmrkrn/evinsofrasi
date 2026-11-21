@@ -173,6 +173,8 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   const p = c.profile;
   let cities = [], districts = [];
   try { cities = await ES.q(ES.sb.from('cities').select('*').order('name')); districts = await ES.q(ES.sb.from('districts').select('*').eq('status', 'active').order('name')); } catch (e) { ES.fail(e); }
+  let myAddrs = [];
+  try { myAddrs = await ES.q(ES.sb.from('addresses').select('*').order('id')); } catch (e) { /* tablo yoksa liste boş */ }
   const inp = 'w-full min-h-[48px] px-4 rounded-md bg-light-surface-container-low border border-light-outline-variant text-body-md';
   app.innerHTML = ES.appHeader('Profil', p.full_name || '', '') +
   '<main class="flex-1 px-page-margin py-gutter-lg flex flex-col gap-gutter-lg">' +
@@ -185,6 +187,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     '<div class="flex flex-col gap-1.5"><label class="font-body text-label-md">Mahalle / Cadde</label><input id="adr" class="' + inp + '" value="' + ES.esc(p.address_text) + '"></div>' +
     '<div class="grid grid-cols-3 gap-gutter-sm"><div class="flex flex-col gap-1"><label class="font-body text-label-sm text-light-on-surface-variant">Bina</label><input id="bina" class="' + inp + '" value="' + ES.esc(p.building) + '"></div><div class="flex flex-col gap-1"><label class="font-body text-label-sm text-light-on-surface-variant">Kat</label><input id="kat" class="' + inp + '" value="' + ES.esc(p.floor) + '"></div><div class="flex flex-col gap-1"><label class="font-body text-label-sm text-light-on-surface-variant">Daire</label><input id="dai" class="' + inp + '" value="' + ES.esc(p.apartment) + '"></div></div>' +
     '<button id="save" class="inline-flex items-center justify-center w-full min-h-[52px] px-6 py-3 rounded-full bg-light-primary text-light-on-primary shadow-sm font-body text-label-lg">Kaydet</button></div>' +
+  (myAddrs.length ? '<div class="bg-light-surface-container-lowest rounded-lg p-gutter-lg border border-light-outline-variant shadow-sm flex flex-col gap-gutter-sm"><h2 class="font-body text-title-md">Kayıtlı Teslimat Adreslerim</h2><p class="font-body text-body-sm text-light-on-surface-variant">Yeni adres eklemek için sipariş ödeme ekranında "Yeni adres"i kullan.</p>' + myAddrs.map((a) => '<div class="flex items-start justify-between gap-gutter-sm py-2 border-t border-light-outline-variant"><div><span class="block font-body text-label-md">' + ES.esc(a.label) + '</span><span class="block font-body text-body-sm text-light-on-surface-variant">' + ES.esc([a.address_text, a.building && 'Bina ' + a.building, a.floor && 'Kat ' + a.floor, a.apartment && 'Daire ' + a.apartment].filter(Boolean).join(', ')) + '</span></div><button data-deladdr="' + a.id + '" class="font-body text-label-md underline shrink-0">Sil</button></div>').join('') + '</div>' : '') +
   '<button id="out" class="inline-flex items-center justify-center w-full min-h-[48px] px-6 rounded-full bg-light-surface-container-lowest border border-light-outline-variant font-body text-label-lg">Çıkış Yap</button></main>' + ES.tabbar('profil');
   const v = (id) => document.getElementById(id).value.trim();
   document.getElementById('save').addEventListener('click', (e) => ES.busy(e.currentTarget, async () => {
@@ -192,6 +195,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     await ES.q(ES.sb.from('profiles').update({ full_name: v('ad'), phone: v('tel'), district_id: Number(document.getElementById('dist').value), address_text: v('adr'), building: v('bina'), floor: v('kat'), apartment: v('dai') }).eq('id', p.id));
     ES.toast('Profilin güncellendi', 'ok'); setTimeout(() => location.reload(), 600);
   }));
+  document.querySelectorAll('[data-deladdr]').forEach((b) => b.addEventListener('click', () => { if (!confirm('Bu adres silinsin mi?')) return; ES.q(ES.sb.from('addresses').delete().eq('id', Number(b.dataset.deladdr))).then(() => location.reload()).catch(ES.fail); }));
   document.getElementById('out').addEventListener('click', ES.signOut);
 })();
 </script>

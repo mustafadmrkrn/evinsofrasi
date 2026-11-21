@@ -185,6 +185,19 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   const activeDays = isPkg ? pk.choices.filter((x) => !x.skipped) : [];
   const targetDate = isPkg ? activeDays[0].day : ES.tomorrowISO();
   let method = 'delivery', slot = null, slots = [], pay = 'card';
+  let addrs = [], kdist = [], addrSel = 'home', showNew = false;
+  async function loadAddrs() { try { addrs = await ES.q(ES.sb.from('addresses').select('*').order('id')); kdist = await ES.q(ES.sb.from('districts').select('id,name').eq('kitchen_id', k.id).order('name')); } catch (e) { /* adres listesi yoksa kayıtlı adres kullanılır */ } }
+  await loadAddrs();
+  const fmtA = (a) => [a.address_text, a.building && 'Bina ' + a.building, a.floor && 'Kat ' + a.floor, a.apartment && 'Daire ' + a.apartment].filter(Boolean).join(', ') + ' — ' + ((kdist.find((d) => d.id === a.district_id) || {}).name || '');
+  const ichip = (on) => 'min-h-[40px] px-4 rounded-full font-body text-label-md ' + (on ? 'bg-light-primary text-light-on-primary' : 'border border-light-outline-variant bg-light-surface-container-lowest');
+  const fld = 'min-h-[44px] px-3 rounded-md bg-light-surface-container-low border border-light-outline-variant font-body text-body-md';
+  function addrPicker() {
+    const own = addrs.filter((a) => kdist.some((d) => d.id === a.district_id));
+    return '<div class="flex flex-col gap-gutter-sm"><span class="font-body text-label-md">Bu siparişi nereye getirelim? (ev, iş yeri, ofis, şantiye…)</span><div class="flex flex-wrap gap-2"><button data-addr="home" class="' + ichip(addrSel === 'home' && !showNew) + '">Kayıtlı adresim</button>' +
+      own.map((a) => '<button data-addr="' + a.id + '" class="' + ichip(addrSel === String(a.id) && !showNew) + '">' + ES.esc(a.label) + '</button>').join('') +
+      '<button data-addr="new" class="' + ichip(showNew) + '">+ Yeni adres</button></div>' +
+      (showNew ? '<div class="grid grid-cols-2 gap-gutter-sm p-gutter-md rounded-lg border border-light-outline-variant bg-light-surface-container-low"><select id="na-label" class="' + fld + '">' + ['İş yeri', 'Ofis', 'Şantiye', 'Ev', 'Diğer'].map((x) => '<option>' + x + '</option>').join('') + '</select><select id="na-dist" class="' + fld + '">' + kdist.map((d) => '<option value="' + d.id + '">' + ES.esc(d.name) + '</option>').join('') + '</select><input id="na-text" placeholder="Mahalle / cadde / sokak" class="col-span-2 ' + fld + '"><input id="na-bina" placeholder="Bina / blok" class="' + fld + '"><input id="na-kat" placeholder="Kat" class="' + fld + '"><input id="na-dai" placeholder="Daire / oda" class="' + fld + '"><input id="na-note" placeholder="Teslimat notu (örn. güvenliğe bırak)" class="' + fld + '"><button id="na-save" class="col-span-2 min-h-[44px] rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Adresi Kaydet ve Kullan</button></div>' : '') + '</div>';
+  }
 
   async function loadSlots() { slots = await ES.q(ES.sb.rpc('slot_availability', { p_kitchen: k.id, p_meal: meal, p_date: targetDate })); if (!slots.some((s) => s.slot_id === slot && s.remaining > 0)) slot = null; }
   try { await loadSlots(); } catch (e) { ES.fail(e); }
@@ -192,7 +205,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   const fee = () => (method === 'delivery' ? Number(k.delivery_fee) : 0);
   const subtotal = () => (isPkg ? Number(pkgRow.price) : ES.Cart.total(cart));
   const feeTotal = () => fee() * (isPkg ? activeDays.length : 1);
-  const addr = () => method === 'pickup' ? [ 'Gel Al Mutfak Noktası', k.name + ' — ' + k.address ] : [ 'Kayıtlı Ev Adresi', [c.profile.address_text, c.profile.building && 'Bina ' + c.profile.building, c.profile.floor && 'Kat ' + c.profile.floor, c.profile.apartment && 'Daire ' + c.profile.apartment].filter(Boolean).join(', ') + ' — ' + c.district.name + ' / ' + c.district.cities.name ];
+  const addr = () => method === 'pickup' ? [ 'Gel Al Mutfak Noktası', k.name + ' — ' + k.address ] : [ (addrSel !== 'home' && addrs.find((x) => String(x.id) === addrSel) ? addrs.find((x) => String(x.id) === addrSel).label : 'Kayıtlı Ev Adresi'), addrSel !== 'home' && addrs.find((x) => String(x.id) === addrSel) ? fmtA(addrs.find((x) => String(x.id) === addrSel)) : [c.profile.address_text, c.profile.building && 'Bina ' + c.profile.building, c.profile.floor && 'Kat ' + c.profile.floor, c.profile.apartment && 'Daire ' + c.profile.apartment].filter(Boolean).join(', ') + ' — ' + c.district.name + ' / ' + c.district.cities.name ];
 
   function render() {
     const a = addr();
@@ -204,7 +217,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
       '<ul class="divide-y divide-light-outline-variant">' + Object.values(cart.items).map((i) => '<li class="py-2 flex items-center justify-between font-body text-body-md"><span>' + i.q + 'x ' + ES.esc(i.n) + '</span><span class="font-body text-label-md tabular-nums">' + ES.money(i.q * i.p) + '</span></li>').join('') + '</ul>') + '</section>' +
     '<section class="flex flex-col gap-gutter-md"><h2 class="font-headline text-title-lg">Teslimat Yöntemi</h2><div role="tablist" class="grid grid-cols-2 p-1 rounded-full bg-light-surface-container border border-light-outline-variant">' +
       [['delivery', 'delivery_dining', 'Eve Teslim (+' + ES.money(k.delivery_fee) + ')'], ['pickup', 'storefront', 'Gel Al (Ücretsiz)']].map((m) => '<button data-m="' + m[0] + '" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-full font-body text-label-md ' + (method === m[0] ? 'bg-light-primary text-light-on-primary shadow-sm' : 'text-light-on-surface-variant') + '"><span class="material-symbols-outlined text-[18px]">' + m[1] + '</span>' + m[2] + '</button>').join('') + '</div>' +
-      '<div class="bg-light-surface-container-low rounded-lg p-gutter-md border border-light-outline-variant flex items-start gap-gutter-sm"><span class="material-symbols-outlined text-light-primary text-[20px] mt-0.5">location_on</span><div><span class="block font-body text-label-md">' + ES.esc(a[0]) + '</span><span class="block font-body text-body-sm text-light-on-surface-variant">' + ES.esc(a[1]) + '</span></div></div></section>' +
+      '<div class="bg-light-surface-container-low rounded-lg p-gutter-md border border-light-outline-variant flex items-start gap-gutter-sm"><span class="material-symbols-outlined text-light-primary text-[20px] mt-0.5">location_on</span><div><span class="block font-body text-label-md">' + ES.esc(a[0]) + '</span><span class="block font-body text-body-sm text-light-on-surface-variant">' + ES.esc(a[1]) + '</span></div></div>' + (method === 'delivery' ? addrPicker() : '') + '</section>' +
     '<section class="flex flex-col gap-gutter-md"><div class="flex items-center justify-between"><h2 class="font-headline text-title-lg">' + (method === 'delivery' ? 'Teslimat' : 'Teslim Alma') + ' Saat Dilimi</h2><span class="font-body text-body-sm text-light-on-surface-variant">' + (method === 'delivery' ? 'Sıcak teslimat' : 'Mutfaktan al') + '</span></div>' +
       '<div class="grid grid-cols-2 gap-gutter-sm">' + slots.map((s) => { const full = s.remaining <= 0, on = s.slot_id === slot; return '<button ' + (full ? 'disabled' : 'data-slot="' + s.slot_id + '"') + ' class="rounded-md p-gutter-md ' + (full ? 'border border-light-outline-variant bg-light-surface-container-high cursor-not-allowed' : on ? 'border-2 border-light-primary bg-light-surface-container-lowest' : 'border border-light-outline-variant bg-light-surface-container-lowest') + ' text-left flex flex-col gap-1"><span class="font-body text-title-md tabular-nums ' + (full ? 'text-light-on-surface-variant' : '') + '">' + ES.hm(s.start_time) + ' – ' + ES.hm(s.end_time) + '</span><span class="font-body text-label-sm ' + (full ? 'text-light-on-surface-variant' : s.remaining <= 5 ? 'text-light-secondary' : 'text-success') + '">' + (full ? 'Kontenjan dolu' : s.remaining + ' kontenjan kaldı') + '</span></button>'; }).join('') + '</div>' +
       (isPkg ? '<p class="font-body text-body-sm text-light-on-surface-variant">Seçtiğin saat tüm paket günleri için geçerli olur (kontenjan, ilk teslimat günü ' + ES.trDate(targetDate) + ' için gösterilir).</p>' : '') + '</section>' +
@@ -214,6 +227,15 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
     '<p class="font-body text-body-sm text-light-on-surface-variant text-center">Sipariş kapanışı bu gece 00:00. ' + (isPkg ? '' : 'Ondan önce siparişini ücretsiz düzenleyebilirsin.') + '</p>' +
     '<button id="ok" class="inline-flex items-center justify-center w-full min-h-[52px] px-6 py-3 rounded-full bg-light-primary text-light-on-primary shadow-sm font-body text-label-lg">' + (isPkg ? 'Paketi Onayla' : 'Siparişi Onayla') + '</button></main>';
     app.querySelectorAll('[data-m]').forEach((b) => b.addEventListener('click', () => { method = b.dataset.m; render(); }));
+    app.querySelectorAll('[data-addr]').forEach((b) => b.addEventListener('click', () => { if (b.dataset.addr === 'new') { showNew = true; } else { showNew = false; addrSel = b.dataset.addr; } render(); }));
+    const nas = document.getElementById('na-save');
+    if (nas) nas.addEventListener('click', () => ES.busy(nas, async () => {
+      const g = (id) => document.getElementById(id).value.trim();
+      if (g('na-text').length < 3) throw new Error('Adres yazmalısın');
+      if (!document.getElementById('na-dist').value) throw new Error('Bu mutfağın teslimat bölgesi yok');
+      const row = await ES.q(ES.sb.from('addresses').insert({ label: g('na-label'), district_id: Number(g('na-dist')), address_text: g('na-text'), building: g('na-bina') || null, floor: g('na-kat') || null, apartment: g('na-dai') || null, note: g('na-note') || null }).select().single());
+      await loadAddrs(); addrSel = String(row.id); showNew = false; render();
+    }));
     app.querySelectorAll('[data-slot]').forEach((b) => b.addEventListener('click', () => { slot = Number(b.dataset.slot); render(); }));
     app.querySelectorAll('input[name=pay]').forEach((r) => r.addEventListener('change', () => { pay = r.value; render(); }));
     document.getElementById('ok').addEventListener('click', () => ES.busy(document.getElementById('ok'), confirmOrder));
@@ -221,14 +243,14 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
 
   async function confirmOrder() {
     if (!slot) throw new Error('Lütfen bir saat dilimi seç');
-    if (method === 'delivery' && !c.profile.address_text) throw new Error('Eve teslim için profilinde adres olmalı');
+    if (method === 'delivery' && showNew) throw new Error('Yeni adresi önce kaydet'); if (method === 'delivery' && addrSel === 'home' && !c.profile.address_text) throw new Error('Eve teslim için profilinde adres olmalı');
     if (isPkg) {
-      const r = await ES.q(ES.sb.rpc('subscribe_package', { p_package: pk.package_id, p_kitchen: k.id, p_slot: slot, p_method: method, p_choices: pk.choices, p_payment: pay }));
+      const r = await ES.q(ES.sb.rpc('subscribe_package', { p_package: pk.package_id, p_kitchen: k.id, p_slot: slot, p_method: method, p_choices: pk.choices, p_payment: pay, p_address: (method === 'delivery' && addrSel !== 'home') ? Number(addrSel) : null }));
       sessionStorage.removeItem('es_pkg'); ES.toast('Paketin aktif! ' + ES.trDate(r.start_date) + ' tarihinde başlıyor.', 'ok');
       setTimeout(() => { location.replace('uyelik.html'); }, 700);
     } else {
       const items = Object.entries(cart.items).map(([id, i]) => ({ dish_id: Number(id), qty: i.q }));
-      const o = await ES.q(ES.sb.rpc('place_order', { p_kitchen: k.id, p_meal: meal, p_method: method, p_slot: slot, p_items: items, p_payment: pay, p_replace: cart.editing || null }));
+      const o = await ES.q(ES.sb.rpc('place_order', { p_kitchen: k.id, p_meal: meal, p_method: method, p_slot: slot, p_items: items, p_payment: pay, p_replace: cart.editing || null, p_address: (method === 'delivery' && addrSel !== 'home') ? Number(addrSel) : null }));
       ES.Cart.clear(); location.replace('siparis.html?id=' + o.id + '&new=1');
     }
   }
