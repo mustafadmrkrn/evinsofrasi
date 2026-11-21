@@ -188,7 +188,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   async function go() {
     if (next && /^[a-z0-9\-]+\.html/i.test(next)) { location.replace(next); return; }
     const p = await ES.q(ES.sb.from('profiles').select('role').eq('id', (await ES.sb.auth.getSession()).data.session.user.id).single());
-    location.replace(['kitchen', 'admin'].includes(p.role) ? 'mutfak-sabah.html' : 'anasayfa.html');
+    location.replace(p.role === 'admin' ? 'admin.html' : p.role === 'kitchen' ? 'mutfak-sabah.html' : 'anasayfa.html');
   }
   document.getElementById('f').addEventListener('submit', (e) => {
     e.preventDefault();
