@@ -80,6 +80,14 @@ window.ES = (function () {
       return ctx;
     }
     if (ctx.profile.role === 'kitchen') { location.replace('mutfak-sabah.html'); return null; }
+    let mode = null; try { mode = localStorage.getItem('es_mode'); } catch (e) { /* yok say */ }
+    if (!opts.skipMode) {
+      const here = location.pathname.split('/').pop() || '';
+      if (mode !== 'hot' && mode !== 'cold') { location.replace('mod.html?next=' + encodeURIComponent(here + location.search)); return null; }
+      if (mode === 'cold' && /^(anasayfa|menu|paketler|uyelik|odeme|siparis)\.html$/.test(here)) { location.replace('kutular.html'); return null; }
+      if (mode === 'hot' && here === 'kutular.html') { location.replace('anasayfa.html'); return null; }
+    }
+    ctx.mode = mode;
     let did = ctx.profile.district_id; ctx.location = null;
     let loc = null; try { loc = localStorage.getItem('es_loc'); } catch (e) { /* yok say */ }
     if (loc && loc !== 'home') {
@@ -119,7 +127,9 @@ window.ES = (function () {
   }
   function refreshCartPill() { document.querySelectorAll('[data-cart-count]').forEach((e) => { e.textContent = Cart.count(); }); }
   function tabbar(active) {
-    const tabs = [['anasayfa', 'anasayfa.html', 'home', 'Ana Sayfa'], ['menu', 'menu.html', 'restaurant_menu', 'Menü'], ['kutular', 'kutular.html', 'inventory_2', 'Kutular'], ['siparis', 'siparis.html', 'receipt_long', 'Siparişlerim'], ['uyelik', 'uyelik.html', 'card_membership', 'Üyelik'], ['profil', 'profil.html', 'person', 'Profil']];
+    let md = null; try { md = localStorage.getItem('es_mode'); } catch (e) { /* yok say */ }
+    const sw = ['mod', 'mod.html?change=1', 'swap_horiz', md === 'cold' ? 'Sıcak' : 'Soğuk'];
+    const tabs = md === 'cold' ? [['kutular', 'kutular.html', 'inventory_2', 'Kutular'], ['profil', 'profil.html', 'person', 'Profil'], sw] : [['anasayfa', 'anasayfa.html', 'home', 'Ana Sayfa'], ['menu', 'menu.html', 'restaurant_menu', 'Menü'], ['siparis', 'siparis.html', 'receipt_long', 'Siparişlerim'], ['uyelik', 'uyelik.html', 'card_membership', 'Üyelik'], ['profil', 'profil.html', 'person', 'Profil'], sw];
     return '<nav aria-label="Alt menü" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] z-30 bg-light-surface-container-lowest border-t border-light-outline-variant px-1 py-2 grid grid-cols-6">' +
       tabs.map((t) => { const on = t[0] === active; return '<a href="' + t[1] + '"' + (on ? ' aria-current="page"' : '') + ' class="flex flex-col items-center justify-center gap-0.5 min-h-[48px] ' + (on ? 'text-light-primary' : 'text-light-on-surface-variant') + '"><span class="material-symbols-outlined text-[22px]"' + (on ? ' style="font-variation-settings:\'FILL\' 1;"' : '') + '>' + t[2] + '</span><span class="font-body text-label-sm">' + t[3] + '</span></a>'; }).join('') + '</nav>';
   }

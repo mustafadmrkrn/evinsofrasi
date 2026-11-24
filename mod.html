@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="assets/logo.svg"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Yarının Sofrası — Seçim</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'cream': '#FFF8F0',
+        'olive': '#1F3A5F',
+        'terracotta': '#D2691E',
+        'accent': '#D2691E',
+        'success': '#2E6B34',
+        'on-success': '#FFFFFF',
+        'success-container': '#E3F2E4',
+        'on-success-container': '#163B1A',
+        'warning': '#A35800',
+        'on-warning': '#FFFFFF',
+        'warning-container': '#FFF0D6',
+        'on-warning-container': '#592D00',
+        'info': '#2A5B7C',
+        'on-info': '#FFFFFF',
+        'info-container': '#E1F0FA',
+        'on-info-container': '#12354D',
+        'light-primary': '#1F3A5F',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#D6E3FF',
+        'light-on-primary-container': '#001B3E',
+        'light-secondary': '#9A4600',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#FFEDE5',
+        'light-on-secondary-container': '#532200',
+        'light-tertiary': '#5A3059',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#FFD6F8',
+        'light-on-tertiary-container': '#310A33',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#F7F9FC',
+        'light-on-background': '#191C20',
+        'light-surface': '#F7F9FC',
+        'light-surface-dim': '#D6DAE1',
+        'light-surface-bright': '#FFFFFF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F1F4F9',
+        'light-surface-container': '#EBEFF5',
+        'light-surface-container-high': '#E5E9F0',
+        'light-surface-container-highest': '#DFE3EA',
+        'light-on-surface': '#191C20',
+        'light-surface-variant': '#E0E3EB',
+        'light-on-surface-variant': '#43474E',
+        'light-outline': '#74777F',
+        'light-outline-variant': '#CFD5DE',
+        'light-inverse-surface': '#2E3135',
+        'light-inverse-on-surface': '#F0F0F7',
+        'light-inverse-primary': '#A9C7FF',
+        'dark-primary': '#B8CF88',
+        'dark-on-primary': '#253600',
+        'dark-primary-container': '#1F3A5F',
+        'dark-on-primary-container': '#D4ECA2',
+        'dark-secondary': '#FFB68D',
+        'dark-on-secondary': '#532200',
+        'dark-secondary-container': '#9A4600',
+        'dark-on-secondary-container': '#FFEDE5',
+        'dark-tertiary': '#EDB5E7',
+        'dark-on-tertiary': '#310A33',
+        'dark-tertiary-container': '#5A3059',
+        'dark-on-tertiary-container': '#FFD6F8',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#15130F',
+        'dark-on-background': '#E8E1DA',
+        'dark-surface': '#15130F',
+        'dark-surface-dim': '#15130F',
+        'dark-surface-bright': '#3C3933',
+        'dark-surface-container-lowest': '#100E0A',
+        'dark-surface-container-low': '#1E1B17',
+        'dark-surface-container': '#221F1B',
+        'dark-surface-container-high': '#2C2A25',
+        'dark-surface-container-highest': '#37342F',
+        'dark-on-surface': '#E8E1DA',
+        'dark-surface-variant': '#45483C',
+        'dark-on-surface-variant': '#C6C8B8',
+        'dark-outline': '#8F9284',
+        'dark-outline-variant': '#45483C',
+        'dark-inverse-surface': '#E8E1DA',
+        'dark-inverse-on-surface': '#33302B',
+        'dark-inverse-primary': '#1F3A5F',
+      },
+      borderRadius: {
+        'sm': '8px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+        'dashboard-margin': '28px',
+      },
+      fontFamily: {
+        'display': ['"Poppins"', 'sans-serif'],
+        'headline': ['"Poppins"', 'sans-serif'],
+        'title': ['"Nunito"', 'sans-serif'],
+        'body': ['"Nunito"', 'sans-serif'],
+        'label': ['"Nunito"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '700' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '700' }],
+        'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.15px', fontWeight: '700' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.25px', fontWeight: '700' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'mono-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Nunito:wght@500;600;700;800&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script src="assets/images.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+<div class="min-h-[884px] max-w-[390px] mx-auto bg-light-surface flex flex-col p-page-margin gap-gutter-md" id="app"></div>
+<script>
+(async () => {
+  const c = await ES.init({ role: 'customer', skipMode: true });
+  if (!c) return;
+  const q = new URLSearchParams(location.search), next = q.get('next') || '';
+  const safe = /^[a-z0-9-]+\.html(\?.*)?$/i.test(next) ? next : '';
+  let cur = null; try { cur = localStorage.getItem('es_mode'); } catch (e) { /* yok say */ }
+  const card = (id, icon, title, sub, pts) => '<button data-mode="' + id + '" class="text-left rounded-xl border-2 ' + (cur === id ? 'border-light-primary' : 'border-light-outline-variant') + ' bg-light-surface-container-lowest p-gutter-lg flex flex-col gap-2 shadow-sm"><div class="flex items-center gap-gutter-md"><div class="w-12 h-12 rounded-full bg-light-primary text-light-on-primary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">' + icon + '</span></div><div><h2 class="font-headline text-title-lg">' + title + '</h2><span class="font-body text-label-md text-light-on-surface-variant">' + sub + '</span></div></div><ul class="list-disc pl-5 font-body text-body-sm text-light-on-surface-variant">' + pts.map((p) => '<li>' + p + '</li>').join('') + '</ul></button>';
+  document.getElementById('app').innerHTML =
+    '<div class="flex items-center gap-gutter-md pt-4"><img src="assets/logo.svg" alt="" class="w-12 h-12 rounded-md"><div><h1 class="font-headline text-headline-sm">Yarının Sofrası</h1><span class="font-body text-body-sm text-light-on-surface-variant">Nasıl sipariş vermek istersin?</span></div></div>' +
+    card('hot', 'local_fire_department', 'Sıcak Zincir', 'Hazır yemek · sıcak teslim', ['Yarının menüsünden seç, mutfak pişirsin', 'Eve sıcak teslim ya da Gel Al', 'Günlük, haftalık, aylık üyelik']) +
+    card('cold', 'ac_unit', 'Soğuk Zincir', 'Yemek kutusu · evde pişir', ['El yapımı, porsiyonlu malzemeler ve tarif kartı', 'Soğuk veya dondurulmuş paket, istediğin saat aralığında teslim', 'Pişirme süresi kısa, kişi sayısına göre kutu']) +
+    '<p class="font-body text-label-sm text-light-on-surface-variant text-center">Seçimini istediğin zaman alt menüden değiştirebilirsin. Sipariş her gece 00:00\'da kapanır.</p>';
+  document.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => {
+    const m = b.dataset.mode; try { localStorage.setItem('es_mode', m); } catch (e) { /* yok say */ }
+    const ok = safe && ((m === 'cold' && !/^(anasayfa|menu|paketler|uyelik|odeme|siparis)\.html/.test(safe)) || (m === 'hot' && !/^kutular\.html/.test(safe)));
+    location.href = ok ? safe : (m === 'cold' ? 'kutular.html' : 'anasayfa.html');
+  }));
+})();
+</script>
+</body></html>
