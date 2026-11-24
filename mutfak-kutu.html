@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="assets/logo.svg"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Yarının Sofrası Mutfak — Kutu Yönetimi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'cream': '#FFF8F0',
+        'olive': '#1F3A5F',
+        'terracotta': '#D2691E',
+        'accent': '#D2691E',
+        'success': '#2E6B34',
+        'on-success': '#FFFFFF',
+        'success-container': '#E3F2E4',
+        'on-success-container': '#163B1A',
+        'warning': '#A35800',
+        'on-warning': '#FFFFFF',
+        'warning-container': '#FFF0D6',
+        'on-warning-container': '#592D00',
+        'info': '#2A5B7C',
+        'on-info': '#FFFFFF',
+        'info-container': '#E1F0FA',
+        'on-info-container': '#12354D',
+        'light-primary': '#1F3A5F',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#D6E3FF',
+        'light-on-primary-container': '#001B3E',
+        'light-secondary': '#9A4600',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#FFEDE5',
+        'light-on-secondary-container': '#532200',
+        'light-tertiary': '#5A3059',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#FFD6F8',
+        'light-on-tertiary-container': '#310A33',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#F7F9FC',
+        'light-on-background': '#191C20',
+        'light-surface': '#F7F9FC',
+        'light-surface-dim': '#D6DAE1',
+        'light-surface-bright': '#FFFFFF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F1F4F9',
+        'light-surface-container': '#EBEFF5',
+        'light-surface-container-high': '#E5E9F0',
+        'light-surface-container-highest': '#DFE3EA',
+        'light-on-surface': '#191C20',
+        'light-surface-variant': '#E0E3EB',
+        'light-on-surface-variant': '#43474E',
+        'light-outline': '#74777F',
+        'light-outline-variant': '#CFD5DE',
+        'light-inverse-surface': '#2E3135',
+        'light-inverse-on-surface': '#F0F0F7',
+        'light-inverse-primary': '#A9C7FF',
+        'dark-primary': '#B8CF88',
+        'dark-on-primary': '#253600',
+        'dark-primary-container': '#1F3A5F',
+        'dark-on-primary-container': '#D4ECA2',
+        'dark-secondary': '#FFB68D',
+        'dark-on-secondary': '#532200',
+        'dark-secondary-container': '#9A4600',
+        'dark-on-secondary-container': '#FFEDE5',
+        'dark-tertiary': '#EDB5E7',
+        'dark-on-tertiary': '#310A33',
+        'dark-tertiary-container': '#5A3059',
+        'dark-on-tertiary-container': '#FFD6F8',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#15130F',
+        'dark-on-background': '#E8E1DA',
+        'dark-surface': '#15130F',
+        'dark-surface-dim': '#15130F',
+        'dark-surface-bright': '#3C3933',
+        'dark-surface-container-lowest': '#100E0A',
+        'dark-surface-container-low': '#1E1B17',
+        'dark-surface-container': '#221F1B',
+        'dark-surface-container-high': '#2C2A25',
+        'dark-surface-container-highest': '#37342F',
+        'dark-on-surface': '#E8E1DA',
+        'dark-surface-variant': '#45483C',
+        'dark-on-surface-variant': '#C6C8B8',
+        'dark-outline': '#8F9284',
+        'dark-outline-variant': '#45483C',
+        'dark-inverse-surface': '#E8E1DA',
+        'dark-inverse-on-surface': '#33302B',
+        'dark-inverse-primary': '#1F3A5F',
+      },
+      borderRadius: {
+        'sm': '8px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+        'dashboard-margin': '28px',
+      },
+      fontFamily: {
+        'display': ['"Poppins"', 'sans-serif'],
+        'headline': ['"Poppins"', 'sans-serif'],
+        'title': ['"Nunito"', 'sans-serif'],
+        'body': ['"Nunito"', 'sans-serif'],
+        'label': ['"Nunito"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '700' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '700' }],
+        'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.15px', fontWeight: '700' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.25px', fontWeight: '700' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'mono-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Nunito:wght@500;600;700;800&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script src="assets/images.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+<div id="boot"></div>
+<script>
+(async () => {
+  const c = await ES.init({ role: 'kitchen' });
+  if (!c) return;
+  const k = c.kitchen, d = ES.kitchenDate();
+  const root = ES.mountKitchen('kutu', 'Kutular', 'Kutu ürünlerini yönet · seçili tarihin paketleme listesi');
+  const ST = { placed: 'Alındı', packing: 'Paketleniyor', ready: 'Hazır', on_the_way: 'Yolda', delivered: 'Teslim edildi', cancelled: 'İptal' };
+  const NEXT = { placed: 'packing', packing: 'ready', ready: 'on_the_way', on_the_way: 'delivered' };
+  const STO = { cold: 'Soğuk', frozen: 'Dondurulmuş', dry: 'Kuru' };
+  const inp = 'rounded-md border border-light-outline-variant px-3 py-2 font-body text-body-md bg-light-surface-container-lowest w-full';
+  let kits = [], orders = [];
+  async function load() {
+    kits = await ES.q(ES.sb.from('kits').select('*').eq('kitchen_id', k.id).order('id'));
+    orders = await ES.q(ES.sb.from('kit_orders').select('*').eq('kitchen_id', k.id).eq('target_date', d).neq('status', 'cancelled').order('window_label').order('id'));
+    render();
+  }
+  const lines = (s) => s.split('\n').map((x) => x.trim()).filter(Boolean);
+  function render() {
+    const by = {}; orders.forEach((o) => { const e = by[o.kit_id] = by[o.kit_id] || { name: o.kit_name, boxes: 0, bySv: {} }; e.boxes += o.qty; e.bySv[o.servings] = (e.bySv[o.servings] || 0) + o.qty; });
+    const card = 'bg-light-surface-container-lowest rounded-lg border border-light-outline-variant p-gutter-lg flex flex-col gap-gutter-md';
+    root.innerHTML =
+      '<section class="' + card + '"><h2 class="font-headline text-headline-sm">Paketleme listesi · ' + ES.trDate(d) + '</h2>' +
+      (Object.keys(by).length ? '<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-md">' + Object.values(by).map((e) => '<div class="p-gutter-md rounded-md bg-light-surface-container-low border border-light-outline-variant"><b class="font-body text-title-md">' + ES.esc(e.name) + '</b><div class="font-body text-body-md">Toplam ' + e.boxes + ' kutu</div><div class="font-body text-body-sm text-light-on-surface-variant">' + Object.keys(e.bySv).map((s) => e.bySv[s] + ' adet ' + s + ' kişilik').join(' · ') + '</div></div>').join('') + '</div>' : '<p class="text-light-on-surface-variant font-body text-body-md">Bu tarih için kutu siparişi yok.</p>') + '</section>' +
+      '<section class="' + card + '"><h2 class="font-headline text-headline-sm">Siparişler (' + orders.length + ')</h2>' +
+      (orders.length ? '<div class="overflow-x-auto"><table class="w-full font-body text-body-sm"><thead><tr class="text-left text-light-on-surface-variant"><th class="py-2">No</th><th>Kutu</th><th>Saat</th><th>Teslimat</th><th>Durum</th><th></th></tr></thead><tbody>' + orders.map((o) => '<tr class="border-t border-light-outline-variant"><td class="py-2">' + ES.esc(o.order_no) + '</td><td>' + ES.esc(o.kit_name) + '<br><span class="text-light-on-surface-variant">' + o.qty + ' × ' + o.servings + ' kişi</span></td><td>' + ES.esc(o.window_label) + '</td><td>' + (o.method === 'pickup' ? 'Gel Al' : ES.esc((o.ship_label || '') + ' — ' + (o.ship_address || ''))) + '</td><td>' + ST[o.status] + '</td><td>' + (NEXT[o.status] ? '<button data-next="' + o.id + ':' + NEXT[o.status] + '" class="px-3 py-1.5 rounded-full bg-light-primary text-light-on-primary text-label-md">→ ' + ST[NEXT[o.status]] + '</button>' : '') + '</td></tr>').join('') + '</tbody></table></div>' : '<p class="text-light-on-surface-variant font-body text-body-md">Sipariş yok.</p>') + '</section>' +
+      '<section class="' + card + '"><h2 class="font-headline text-headline-sm">Kutu ürünleri</h2>' +
+      (kits.length ? '<div class="overflow-x-auto"><table class="w-full font-body text-body-sm"><thead><tr class="text-left text-light-on-surface-variant"><th class="py-2">Ad</th><th>Tür</th><th>Saklama</th><th>₺/kişi</th><th>Günlük kota</th><th>Satışta</th><th></th></tr></thead><tbody>' + kits.map((x) => '<tr class="border-t border-light-outline-variant"><td class="py-2">' + ES.esc(x.name) + '</td><td>' + (x.kind === 'box' ? 'Çok tarifli' : 'Tek ürün') + '</td><td>' + STO[x.storage] + '</td><td><input data-price="' + x.id + '" type="number" min="0" value="' + x.price_per_serving + '" class="w-24 ' + inp.replace('w-full', '') + '"></td><td><input data-quota="' + x.id + '" type="number" min="0" placeholder="sınırsız" value="' + (x.daily_quota == null ? '' : x.daily_quota) + '" class="w-24 ' + inp.replace('w-full', '') + '"></td><td><input data-active="' + x.id + '" type="checkbox"' + (x.active ? ' checked' : '') + '></td><td><button data-del="' + x.id + '" class="underline text-light-error">Sil</button></td></tr>').join('') + '</tbody></table></div>' : '<p class="text-light-on-surface-variant font-body text-body-md">Henüz kutu yok.</p>') + '</section>' +
+      '<section class="' + card + '"><h2 class="font-headline text-headline-sm">Yeni kutu ekle</h2><form id="nf" class="grid grid-cols-1 md:grid-cols-2 gap-gutter-md">' +
+      '<label class="flex flex-col gap-1">Ad<input name="name" required class="' + inp + '"></label>' +
+      '<label class="flex flex-col gap-1">Tür<select name="kind" class="' + inp + '"><option value="single">Tek ürün kutusu (ör. mantı)</option><option value="box">Çok tarifli kutu</option></select></label>' +
+      '<label class="flex flex-col gap-1 md:col-span-2">Açıklama<input name="description" class="' + inp + '"></label>' +
+      '<label class="flex flex-col gap-1">Kişi başı fiyat (₺)<input name="price" type="number" min="0" step="0.5" required class="' + inp + '"></label>' +
+      '<label class="flex flex-col gap-1">Günlük kota (kutu, boşsa sınırsız)<input name="quota" type="number" min="0" class="' + inp + '"></label>' +
+      '<label class="flex flex-col gap-1">Kişi seçenekleri (virgülle)<input name="serves" value="2,4" class="' + inp + '"></label>' +
+      '<label class="flex flex-col gap-1">Saklama<select name="storage" class="' + inp + '"><option value="cold">Soğuk (buzdolabı)</option><option value="frozen">Dondurulmuş</option><option value="dry">Kuru</option></select></label>' +
+      '<label class="flex flex-col gap-1">Raf ömrü (gün)<input name="shelf" type="number" min="1" class="' + inp + '"></label>' +
+      '<label class="flex flex-col gap-1">Menü tipi<select name="diet" class="' + inp + '">' + Object.keys(ES.DIET).map((x) => '<option value="' + x + '">' + ES.DIET[x] + '</option>').join('') + '</select></label>' +
+      '<label class="flex flex-col gap-1 md:col-span-2">Kutunun içi (her satıra bir kalem)<textarea name="contents" rows="4" required class="' + inp + '"></textarea></label>' +
+      '<label class="flex flex-col gap-1 md:col-span-2">Tarif adımları (her satıra bir adım)<textarea name="recipe" rows="4" class="' + inp + '"></textarea></label>' +
+      '<button class="md:col-span-2 py-3 rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Kutuyu ekle</button></form></section>';
+    root.querySelectorAll('[data-next]').forEach((b) => b.addEventListener('click', () => ES.busy(b, async () => { const [id, st] = b.dataset.next.split(':'); await ES.q(ES.sb.from('kit_orders').update({ status: st }).eq('id', Number(id))); await load(); })));
+    root.querySelectorAll('[data-price]').forEach((i) => i.addEventListener('change', async () => { const v = Number(i.value); if (!(v >= 0)) return ES.toast('Geçersiz fiyat', 'error'); try { await ES.q(ES.sb.from('kits').update({ price_per_serving: v }).eq('id', Number(i.dataset.price))); ES.toast('Fiyat güncellendi', 'ok'); } catch (e) { ES.fail(e); } }));
+    root.querySelectorAll('[data-quota]').forEach((i) => i.addEventListener('change', async () => { const raw = i.value.trim(); const v = raw === '' ? null : Number(raw); if (v !== null && !(v >= 0)) return ES.toast('Geçersiz kota', 'error'); try { await ES.q(ES.sb.from('kits').update({ daily_quota: v }).eq('id', Number(i.dataset.quota))); ES.toast('Kota güncellendi', 'ok'); } catch (e) { ES.fail(e); } }));
+    root.querySelectorAll('[data-active]').forEach((i) => i.addEventListener('change', async () => { try { await ES.q(ES.sb.from('kits').update({ active: i.checked }).eq('id', Number(i.dataset.active))); } catch (e) { ES.fail(e); } }));
+    root.querySelectorAll('[data-del]').forEach((b) => b.addEventListener('click', () => { if (!confirm('Bu kutu silinsin mi? (Geçmiş siparişler kalır)')) return; ES.busy(b, async () => { await ES.q(ES.sb.from('kits').delete().eq('id', Number(b.dataset.del))); await load(); }); }));
+    root.querySelector('#nf').addEventListener('submit', (e) => { e.preventDefault(); const f = e.target, g = (n) => f.elements[n].value.trim(); ES.busy(f.querySelector('button'), async () => {
+      const serves = g('serves').split(',').map((x) => Number(x.trim())).filter((x) => x >= 1 && x <= 12);
+      if (!serves.length) throw new Error('Kişi seçeneklerini sayı olarak gir (ör. 2,4)');
+      await ES.q(ES.sb.from('kits').insert({ kitchen_id: k.id, name: g('name'), description: g('description') || null, kind: g('kind'), diet: g('diet'), serves, price_per_serving: Number(g('price')), daily_quota: g('quota') === '' ? null : Number(g('quota')), storage: g('storage'), shelf_life_days: g('shelf') ? Number(g('shelf')) : null, contents: lines(f.elements.contents.value), recipe: lines(f.elements.recipe.value) }));
+      ES.toast('Kutu eklendi', 'ok'); await load(); }); });
+  }
+  try { await load(); } catch (e) { ES.fail(e); }
+})();
+</script>
+</body></html>

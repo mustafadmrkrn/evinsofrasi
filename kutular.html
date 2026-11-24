@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="assets/logo.svg"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Yarının Sofrası — Kutular</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'cream': '#FFF8F0',
+        'olive': '#1F3A5F',
+        'terracotta': '#D2691E',
+        'accent': '#D2691E',
+        'success': '#2E6B34',
+        'on-success': '#FFFFFF',
+        'success-container': '#E3F2E4',
+        'on-success-container': '#163B1A',
+        'warning': '#A35800',
+        'on-warning': '#FFFFFF',
+        'warning-container': '#FFF0D6',
+        'on-warning-container': '#592D00',
+        'info': '#2A5B7C',
+        'on-info': '#FFFFFF',
+        'info-container': '#E1F0FA',
+        'on-info-container': '#12354D',
+        'light-primary': '#1F3A5F',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#D6E3FF',
+        'light-on-primary-container': '#001B3E',
+        'light-secondary': '#9A4600',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#FFEDE5',
+        'light-on-secondary-container': '#532200',
+        'light-tertiary': '#5A3059',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#FFD6F8',
+        'light-on-tertiary-container': '#310A33',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#F7F9FC',
+        'light-on-background': '#191C20',
+        'light-surface': '#F7F9FC',
+        'light-surface-dim': '#D6DAE1',
+        'light-surface-bright': '#FFFFFF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F1F4F9',
+        'light-surface-container': '#EBEFF5',
+        'light-surface-container-high': '#E5E9F0',
+        'light-surface-container-highest': '#DFE3EA',
+        'light-on-surface': '#191C20',
+        'light-surface-variant': '#E0E3EB',
+        'light-on-surface-variant': '#43474E',
+        'light-outline': '#74777F',
+        'light-outline-variant': '#CFD5DE',
+        'light-inverse-surface': '#2E3135',
+        'light-inverse-on-surface': '#F0F0F7',
+        'light-inverse-primary': '#A9C7FF',
+        'dark-primary': '#B8CF88',
+        'dark-on-primary': '#253600',
+        'dark-primary-container': '#1F3A5F',
+        'dark-on-primary-container': '#D4ECA2',
+        'dark-secondary': '#FFB68D',
+        'dark-on-secondary': '#532200',
+        'dark-secondary-container': '#9A4600',
+        'dark-on-secondary-container': '#FFEDE5',
+        'dark-tertiary': '#EDB5E7',
+        'dark-on-tertiary': '#310A33',
+        'dark-tertiary-container': '#5A3059',
+        'dark-on-tertiary-container': '#FFD6F8',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#15130F',
+        'dark-on-background': '#E8E1DA',
+        'dark-surface': '#15130F',
+        'dark-surface-dim': '#15130F',
+        'dark-surface-bright': '#3C3933',
+        'dark-surface-container-lowest': '#100E0A',
+        'dark-surface-container-low': '#1E1B17',
+        'dark-surface-container': '#221F1B',
+        'dark-surface-container-high': '#2C2A25',
+        'dark-surface-container-highest': '#37342F',
+        'dark-on-surface': '#E8E1DA',
+        'dark-surface-variant': '#45483C',
+        'dark-on-surface-variant': '#C6C8B8',
+        'dark-outline': '#8F9284',
+        'dark-outline-variant': '#45483C',
+        'dark-inverse-surface': '#E8E1DA',
+        'dark-inverse-on-surface': '#33302B',
+        'dark-inverse-primary': '#1F3A5F',
+      },
+      borderRadius: {
+        'sm': '8px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '16px',
+        'dashboard-margin': '28px',
+      },
+      fontFamily: {
+        'display': ['"Poppins"', 'sans-serif'],
+        'headline': ['"Poppins"', 'sans-serif'],
+        'title': ['"Nunito"', 'sans-serif'],
+        'body': ['"Nunito"', 'sans-serif'],
+        'label': ['"Nunito"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '700' }],
+        'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '700' }],
+        'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.15px', fontWeight: '700' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.25px', fontWeight: '700' }],
+        'mono-lg': ['22px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '700' }],
+        'mono-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '240ms',
+        'surface-exit': '160ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Nunito:wght@500;600;700;800&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script src="assets/images.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+<div class="min-h-[884px] max-w-[390px] mx-auto bg-light-surface flex flex-col pb-24" id="app"></div>
+<div id="sheet"></div>
+<script>
+(async () => {
+  const c = await ES.init({ role: 'customer' });
+  if (!c) return;
+  const app = document.getElementById('app');
+  if (!c.kitchen) { app.innerHTML = ES.appHeader('Kutular', c.district ? c.district.name : '—', '') + ES.noKitchenBanner() + ES.tabbar('kutular'); return; }
+  const k = c.kitchen, WINDOWS = ['09:00-12:00', '12:00-15:00', '15:00-18:00', '18:00-21:00'];
+  const STORE = { cold: ['ac_unit', 'Soğuk — buzdolabında sakla'], frozen: ['severe_cold', 'Dondurulmuş — dondurucuda sakla'], dry: ['inventory_2', 'Kuru — serin yerde sakla'] };
+  let kits = [], diet = 'all', date = ES.tomorrowISO(), rem = {}, mine = [], addrs = [], kdist = [];
+  const dates = Array.from({ length: 7 }, (_, i) => ES.addDays(ES.todayISO(), i + 1));
+  const chip = (on) => 'px-3 py-1.5 rounded-full border font-body text-label-md whitespace-nowrap ' + (on ? 'bg-light-primary text-light-on-primary border-light-primary' : 'bg-light-surface-container-lowest text-light-on-surface border-light-outline-variant');
+  async function load() {
+    kits = await ES.q(ES.sb.from('kits').select('*').eq('kitchen_id', k.id).eq('active', true).order('id'));
+    rem = {}; await Promise.all(kits.map(async (x) => { try { rem[x.id] = await ES.q(ES.sb.rpc('kit_remaining', { p_kit: x.id, p_date: date })); } catch (e) { rem[x.id] = null; } }));
+    mine = await ES.q(ES.sb.from('kit_orders').select('*').order('id', { ascending: false }).limit(15));
+  }
+  try { await load(); addrs = await ES.q(ES.sb.from('addresses').select('*').order('id')); kdist = await ES.q(ES.sb.from('districts').select('id,name').eq('kitchen_id', k.id)); } catch (e) { ES.fail(e); }
+  const dietOf = Array.from(new Set(kits.map((x) => x.diet)));
+  function render() {
+    const list = kits.filter((x) => diet === 'all' || x.diet === diet);
+    app.innerHTML = ES.appHeader('Kutular · el yapımı, porsiyonlu', c.district.name + ' / ' + c.district.cities.name, '') +
+      '<div class="px-page-margin pt-3 flex flex-col gap-gutter-md">' +
+      '<div class="rounded-lg bg-light-primary-container text-light-on-primary-container p-gutter-md font-body text-body-sm">Malzemeler porsiyona göre ayrı ayrı paketlenir, tarif kartıyla gelir. Sipariş gece 00:00\'da kapanır, seçtiğin saat aralığında teslim edilir.</div>' +
+      '<div class="flex gap-2 overflow-x-auto pb-1">' + dates.map((d) => '<button data-date="' + d + '" class="' + chip(d === date) + '">' + (d === dates[0] ? 'Yarın' : ES.DOW[ES.dowOf(d)] + ' ' + ES.trDate(d)) + '</button>').join('') + '</div>' +
+      (dietOf.length > 1 ? '<div class="flex gap-2 overflow-x-auto pb-1"><button data-diet="all" class="' + chip(diet === 'all') + '">Tümü</button>' + dietOf.map((d) => '<button data-diet="' + d + '" class="' + chip(diet === d) + '">' + ES.esc(ES.DIET[d] || d) + '</button>').join('') + '</div>' : '') +
+      (list.length ? list.map((x) => { const r = rem[x.id], out = r === 0; return '<article class="bg-light-surface-container-lowest rounded-lg p-gutter-md border border-light-outline-variant shadow-sm flex flex-col gap-2">' +
+        '<div class="flex items-start justify-between gap-2"><div><span class="inline-block px-2 py-0.5 rounded-full bg-light-secondary-container text-light-on-secondary-container font-body text-label-sm mb-1">' + (x.kind === 'box' ? 'Çok tarifli kutu' : 'Tek ürün kutusu') + '</span><h2 class="font-headline text-title-lg">' + ES.esc(x.name) + '</h2></div><span class="font-body text-title-md text-light-primary whitespace-nowrap">' + ES.money(x.price_per_serving) + '<span class="text-label-sm text-light-on-surface-variant"> /kişi</span></span></div>' +
+        '<p class="font-body text-body-sm text-light-on-surface-variant">' + ES.esc(x.description || '') + '</p>' +
+        '<div class="flex flex-wrap gap-2 font-body text-label-sm text-light-on-surface-variant"><span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">' + STORE[x.storage][0] + '</span>' + STORE[x.storage][1] + (x.shelf_life_days ? ' · ' + x.shelf_life_days + ' gün' : '') + '</span><span>' + x.serves.join(' / ') + ' kişilik</span></div>' +
+        '<div class="flex items-center justify-between mt-1"><span class="font-body text-label-sm ' + (out ? 'text-light-error' : 'text-light-on-surface-variant') + '">' + (out ? 'Kotamız bitti — tükendi' : r == null ? '' : 'Kalan: ' + r + ' kutu') + '</span><button data-open="' + x.id + '" ' + (out ? 'disabled' : '') + ' class="px-4 py-2 rounded-full font-body text-label-md ' + (out ? 'bg-light-surface-container-high text-light-on-surface-variant' : 'bg-light-primary text-light-on-primary') + '">' + (out ? 'Tükendi' : 'Seç') + '</button></div></article>'; }).join('') : '<p class="font-body text-body-md text-light-on-surface-variant">Bu mutfak için henüz kutu eklenmedi.</p>') +
+      (mine.length ? '<h2 class="font-headline text-headline-sm mt-2">Kutu siparişlerim</h2>' + mine.map((o) => '<div class="bg-light-surface-container-lowest rounded-lg p-gutter-md border border-light-outline-variant font-body text-body-sm flex flex-col gap-1"><div class="flex justify-between"><b>' + ES.esc(o.kit_name) + '</b><span>' + ES.money(o.total) + '</span></div><span class="text-light-on-surface-variant">' + ES.esc(o.order_no) + ' · ' + o.qty + ' kutu × ' + o.servings + ' kişi · ' + ES.trDate(o.target_date) + ' ' + ES.esc(o.window_label) + '</span><span class="text-light-on-surface-variant">' + (o.method === 'pickup' ? 'Gel Al' : ES.esc(o.ship_address || 'Eve teslim')) + '</span><div class="flex justify-between items-center"><span class="font-label-md">' + ({ placed: 'Alındı', packing: 'Paketleniyor', ready: 'Hazır', on_the_way: 'Yolda', delivered: 'Teslim edildi', cancelled: 'İptal' }[o.status]) + '</span>' + (o.status === 'placed' && o.target_date > ES.todayISO() ? '<button data-cancel="' + o.id + '" class="underline text-light-error">İptal et</button>' : '') + '</div></div>').join('') : '') +
+      '</div>' + ES.tabbar('kutular');
+    app.querySelectorAll('[data-date]').forEach((b) => b.addEventListener('click', async () => { date = b.dataset.date; await load(); render(); }));
+    app.querySelectorAll('[data-diet]').forEach((b) => b.addEventListener('click', () => { diet = b.dataset.diet; render(); }));
+    app.querySelectorAll('[data-open]').forEach((b) => b.addEventListener('click', () => openSheet(kits.find((x) => x.id === Number(b.dataset.open)))));
+    app.querySelectorAll('[data-cancel]').forEach((b) => b.addEventListener('click', () => ES.busy(b, async () => { await ES.q(ES.sb.rpc('cancel_kit_order', { p_id: Number(b.dataset.cancel) })); ES.toast('Sipariş iptal edildi', 'ok'); await load(); render(); })));
+  }
+  const fmtA = (a) => [a.address_text, a.building && 'Bina ' + a.building, a.floor && 'Kat ' + a.floor, a.apartment && 'Daire ' + a.apartment].filter(Boolean).join(', ');
+  function openSheet(x) {
+    let sv = x.serves[0], qty = 1, win = WINDOWS[2], method = 'delivery';
+    const own = addrs.filter((a) => kdist.some((d) => d.id === a.district_id));
+    const homeOk = c.profile.address_text && c.district && c.district.kitchen_id === k.id;
+    let addrSel = c.location && own.some((a) => a.id === c.location.id) ? String(c.location.id) : (homeOk ? 'home' : (own[0] ? String(own[0].id) : ''));
+    const sh = document.getElementById('sheet');
+    const r = rem[x.id];
+    function draw() {
+      const max = r == null ? 20 : Math.min(20, r), total = x.price_per_serving * sv * qty + (method === 'delivery' ? Number(k.delivery_fee) : 0);
+      sh.innerHTML = '<div class="fixed inset-0 z-40 bg-black/40 flex items-end justify-center" id="bg"><div class="bg-light-surface w-full max-w-[390px] max-h-[88vh] overflow-y-auto rounded-t-2xl p-page-margin flex flex-col gap-gutter-md">' +
+        '<div class="flex justify-between items-start"><h2 class="font-headline text-headline-sm">' + ES.esc(x.name) + '</h2><button id="x" class="text-[24px] leading-none px-2">×</button></div>' +
+        '<div><h3 class="font-body text-label-md mb-1">Kutunun içi</h3><ul class="list-disc pl-5 font-body text-body-sm">' + x.contents.map((i) => '<li>' + ES.esc(i) + '</li>').join('') + '</ul></div>' +
+        (x.recipe.length ? '<div><h3 class="font-body text-label-md mb-1">Tarif kartı</h3><ol class="list-decimal pl-5 font-body text-body-sm">' + x.recipe.map((i) => '<li>' + ES.esc(i) + '</li>').join('') + '</ol></div>' : '') +
+        '<div><h3 class="font-body text-label-md mb-1">Kaç kişilik?</h3><div class="flex gap-2">' + x.serves.map((s) => '<button data-sv="' + s + '" class="' + chip(s === sv) + '">' + s + ' kişi</button>').join('') + '</div></div>' +
+        '<div class="flex items-center justify-between"><span class="font-body text-label-md">Kaç kutu?</span><div class="flex items-center gap-2"><button id="m" class="w-9 h-9 rounded-full border border-light-outline-variant">−</button><input id="q" type="number" min="1" max="' + max + '" value="' + qty + '" class="w-16 text-center rounded-md border border-light-outline-variant py-1"><button id="p" class="w-9 h-9 rounded-full border border-light-outline-variant">+</button></div></div>' +
+        '<div><h3 class="font-body text-label-md mb-1">Teslim saati — ' + ES.trDate(date) + '</h3><div class="flex flex-wrap gap-2">' + WINDOWS.map((w) => '<button data-w="' + w + '" class="' + chip(w === win) + '">' + w + '</button>').join('') + '</div></div>' +
+        '<div><h3 class="font-body text-label-md mb-1">Teslimat şekli</h3><div class="flex gap-2"><button data-m="delivery" class="' + chip(method === 'delivery') + '">Eve teslim (' + ES.money(k.delivery_fee) + ')</button><button data-m="pickup" class="' + chip(method === 'pickup') + '">Gel Al</button></div>' +
+        (method === 'delivery' ? '<select id="ad" class="mt-2 w-full rounded-md border border-light-outline-variant py-2 px-2 font-body text-body-sm">' + (homeOk ? '<option value="home"' + (addrSel === 'home' ? ' selected' : '') + '>Kayıtlı adresim</option>' : '') + own.map((a) => '<option value="' + a.id + '"' + (addrSel === String(a.id) ? ' selected' : '') + '>' + ES.esc(a.label + ' — ' + fmtA(a)) + '</option>').join('') + '</select>' + (!homeOk && !own.length ? '<p class="font-body text-body-sm text-light-error mt-1">Bu mutfağın bölgesinde kayıtlı adresin yok. Profil sayfasından adres ekle.</p>' : '') : '<p class="font-body text-body-sm text-light-on-surface-variant mt-2">' + ES.esc(k.name + ' — ' + k.address) + '</p>') + '</div>' +
+        '<button id="go" class="w-full py-3 rounded-full bg-light-primary text-light-on-primary font-body text-label-lg">Sipariş ver · ' + ES.money(total) + '</button>' +
+        '<p class="font-body text-label-sm text-light-on-surface-variant text-center">Ödeme şimdilik demo. Sipariş gece 00:00\'a kadar iptal edilebilir.</p></div></div>';
+      sh.querySelector('#x').onclick = () => { sh.innerHTML = ''; };
+      sh.querySelectorAll('[data-sv]').forEach((b) => b.onclick = () => { sv = Number(b.dataset.sv); draw(); });
+      sh.querySelectorAll('[data-w]').forEach((b) => b.onclick = () => { win = b.dataset.w; draw(); });
+      sh.querySelectorAll('[data-m]').forEach((b) => b.onclick = () => { method = b.dataset.m; draw(); });
+      sh.querySelector('#m').onclick = () => { qty = Math.max(1, qty - 1); draw(); };
+      sh.querySelector('#p').onclick = () => { if (qty + 1 > max) ES.toast('En fazla ' + max + ' kutu', 'error'); else qty++; draw(); };
+      sh.querySelector('#q').onchange = (e) => { let n = Math.floor(Number(e.target.value)) || 1; if (n > max) { n = max; ES.toast('En fazla ' + max + ' kutu', 'error'); } qty = Math.max(1, n); draw(); };
+      const ad = sh.querySelector('#ad'); if (ad) ad.onchange = () => { addrSel = ad.value; };
+      sh.querySelector('#go').onclick = (e) => ES.busy(e.currentTarget, async () => {
+        if (method === 'delivery' && !addrSel) throw new Error('Teslimat adresi seç');
+        await ES.q(ES.sb.rpc('place_kit_order', { p_kit: x.id, p_servings: sv, p_qty: qty, p_date: date, p_window: win, p_method: method, p_address: (method === 'delivery' && addrSel !== 'home') ? Number(addrSel) : null, p_payment: 'card' }));
+        sh.innerHTML = ''; ES.toast('Siparişin alındı!', 'ok'); await load(); render();
+      });
+    }
+    draw();
+  }
+  render();
+})();
+</script>
+</body></html>

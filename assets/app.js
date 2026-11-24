@@ -119,8 +119,8 @@ window.ES = (function () {
   }
   function refreshCartPill() { document.querySelectorAll('[data-cart-count]').forEach((e) => { e.textContent = Cart.count(); }); }
   function tabbar(active) {
-    const tabs = [['anasayfa', 'anasayfa.html', 'home', 'Ana Sayfa'], ['menu', 'menu.html', 'restaurant_menu', 'Menü'], ['siparis', 'siparis.html', 'receipt_long', 'Siparişlerim'], ['uyelik', 'uyelik.html', 'card_membership', 'Üyelik'], ['profil', 'profil.html', 'person', 'Profil']];
-    return '<nav aria-label="Alt menü" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] z-30 bg-light-surface-container-lowest border-t border-light-outline-variant px-2 py-2 grid grid-cols-5">' +
+    const tabs = [['anasayfa', 'anasayfa.html', 'home', 'Ana Sayfa'], ['menu', 'menu.html', 'restaurant_menu', 'Menü'], ['kutular', 'kutular.html', 'inventory_2', 'Kutular'], ['siparis', 'siparis.html', 'receipt_long', 'Siparişlerim'], ['uyelik', 'uyelik.html', 'card_membership', 'Üyelik'], ['profil', 'profil.html', 'person', 'Profil']];
+    return '<nav aria-label="Alt menü" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] z-30 bg-light-surface-container-lowest border-t border-light-outline-variant px-1 py-2 grid grid-cols-6">' +
       tabs.map((t) => { const on = t[0] === active; return '<a href="' + t[1] + '"' + (on ? ' aria-current="page"' : '') + ' class="flex flex-col items-center justify-center gap-0.5 min-h-[48px] ' + (on ? 'text-light-primary' : 'text-light-on-surface-variant') + '"><span class="material-symbols-outlined text-[22px]"' + (on ? ' style="font-variation-settings:\'FILL\' 1;"' : '') + '>' + t[2] + '</span><span class="font-body text-label-sm">' + t[3] + '</span></a>'; }).join('') + '</nav>';
   }
   function noKitchenBanner() {
@@ -154,7 +154,7 @@ window.ES = (function () {
   const canEdit = (o) => o.status === 'placed' && o.source === 'single' && o.target_date > todayISO();
 
   /* ---------- mutfak kabuğu ---------- */
-  const KNAV = [['sabah', 'mutfak-sabah.html', 'wb_sunny', 'Sabah Özeti'], ['uretim', 'mutfak-uretim.html', 'skillet', 'Üretim Planı'], ['teslimat', 'mutfak-teslimat.html', 'local_shipping', 'Teslimat'], ['menu', 'mutfak-menu.html', 'restaurant_menu', 'Menü Yönetimi'], ['rapor', 'mutfak-rapor.html', 'bar_chart', 'Raporlar']];
+  const KNAV = [['sabah', 'mutfak-sabah.html', 'wb_sunny', 'Sabah Özeti'], ['uretim', 'mutfak-uretim.html', 'skillet', 'Üretim Planı'], ['teslimat', 'mutfak-teslimat.html', 'local_shipping', 'Teslimat'], ['menu', 'mutfak-menu.html', 'restaurant_menu', 'Menü Yönetimi'], ['kutu', 'mutfak-kutu.html', 'inventory_2', 'Kutular'], ['rapor', 'mutfak-rapor.html', 'bar_chart', 'Raporlar']];
   function kitchenDate() { const p = new URLSearchParams(location.search).get('d'); return /^\d{4}-\d{2}-\d{2}$/.test(p || '') ? p : todayISO(); }
   function mountKitchen(active, title, subtitle, actionsHtml) {
     const k = ctx.kitchen;
